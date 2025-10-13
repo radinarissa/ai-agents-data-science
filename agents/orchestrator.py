@@ -187,3 +187,30 @@ class OrchestratorAgent:
             f.write("\n".join(self.pipeline_logs))
 
         self.log(f"Logs saved to: {filepath}")
+
+    def visualize_results(self, df, results):
+        from .visualizer import VisualizerAgent
+        from .report_generator import ReportGenerator
+
+        self.log("Generating visualizations...")
+
+        try:
+            visualizer = VisualizerAgent()
+
+            charts = {}
+            charts['Data Overview'] = visualizer.plot_data_overview(df)
+            charts['Pipeline Metrics'] = visualizer.plot_metrics(self.metrics)
+            charts['Processing Time'] = visualizer.plot_processing_time(self.metrics)
+
+            self.log(f"✓ Charts generated")
+
+            report_gen = ReportGenerator()
+            report_path = report_gen.generate_html_report(results, charts)
+
+            self.log(f"✓ HTML report: {report_path}")
+
+            return charts, report_path
+
+        except Exception as e:
+            self.log(f"⚠ Error generating visualizations: {str(e)}")
+            return {}, None

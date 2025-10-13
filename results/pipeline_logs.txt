@@ -1,32 +1,37 @@
-[2025-10-13 14:50:11] ============================================================
-[2025-10-13 14:50:11] STARTING AI AGENTS PIPELINE
-[2025-10-13 14:50:11] ============================================================
-[2025-10-13 14:50:11] Loading data from: data/raw/agentic_ai_performance_dataset_20250622.csv
-[2025-10-13 14:50:11] ✓ Data loaded: 5000 rows, 26 columns
-[2025-10-13 14:50:11] Starting data processing...
-[2025-10-13 14:50:11] Applying default processing (removing nulls)
-[2025-10-13 14:50:11] ✓ Data processed with default method
-[2025-10-13 14:50:11] Processing completed in 0.01 seconds
-[2025-10-13 14:50:11] Starting model training...
-[2025-10-13 14:50:11] Generating basic statistics
-[2025-10-13 14:50:11] ✓ Basic analysis completed (no model training)
-[2025-10-13 14:50:11] Training completed in 0.07 seconds
-[2025-10-13 14:50:11] ============================================================
-[2025-10-13 14:50:11] ✓ PIPELINE COMPLETED SUCCESSFULLY
-[2025-10-13 14:50:11] Total time: 0.12 seconds
-[2025-10-13 14:50:11] ============================================================
-[2025-10-13 14:50:11] 
+[2025-10-13 15:07:08] ============================================================
+[2025-10-13 15:07:08] STARTING AI AGENTS PIPELINE
+[2025-10-13 15:07:08] ============================================================
+[2025-10-13 15:07:08] Loading data from: data/raw/agentic_ai_performance_dataset_20250622.csv
+[2025-10-13 15:07:08] ✓ Data loaded: 5000 rows, 26 columns
+[2025-10-13 15:07:08] Starting data processing...
+[2025-10-13 15:07:08] Applying default processing (removing nulls)
+[2025-10-13 15:07:08] ✓ Data processed with default method
+[2025-10-13 15:07:08] Processing completed in 0.00 seconds
+[2025-10-13 15:07:08] Starting model training...
+[2025-10-13 15:07:08] Generating basic statistics
+[2025-10-13 15:07:08] ✓ Basic analysis completed (no model training)
+[2025-10-13 15:07:08] Training completed in 0.06 seconds
+[2025-10-13 15:07:08] ============================================================
+[2025-10-13 15:07:08] ✓ PIPELINE COMPLETED SUCCESSFULLY
+[2025-10-13 15:07:08] Total time: 0.11 seconds
+[2025-10-13 15:07:08] ============================================================
+[2025-10-13 15:07:08] Loading data from: data/raw/agentic_ai_performance_dataset_20250622.csv
+[2025-10-13 15:07:08] ✓ Data loaded: 5000 rows, 26 columns
+[2025-10-13 15:07:08] Generating visualizations...
+[2025-10-13 15:07:14] ✓ Charts generated
+[2025-10-13 15:07:14] ✓ HTML report: results\report.html
+[2025-10-13 15:07:14] 
 ============================================================
-[2025-10-13 14:50:11] PIPELINE REPORT
-[2025-10-13 14:50:11] ============================================================
-[2025-10-13 14:50:11] 
+[2025-10-13 15:07:14] PIPELINE REPORT
+[2025-10-13 15:07:14] ============================================================
+[2025-10-13 15:07:14] 
 📊 METRICS:
-[2025-10-13 14:50:11]   original_rows: 5000
-[2025-10-13 14:50:11]   original_columns: 26
-[2025-10-13 14:50:11]   processing_time: 0.01
-[2025-10-13 14:50:11]   processed_rows: 5000
-[2025-10-13 14:50:11]   training_time: 0.07
-[2025-10-13 14:50:11]   total_pipeline_time: 0.12
-[2025-10-13 14:50:11] 
+[2025-10-13 15:07:14]   original_rows: 5000
+[2025-10-13 15:07:14]   original_columns: 26
+[2025-10-13 15:07:14]   processing_time: 0.0
+[2025-10-13 15:07:14]   processed_rows: 5000
+[2025-10-13 15:07:14]   training_time: 0.06
+[2025-10-13 15:07:14]   total_pipeline_time: 0.11
+[2025-10-13 15:07:14] 
 ✅ Status: SUCCESS
-[2025-10-13 14:50:11] ============================================================
+[2025-10-13 15:07:14] ============================================================

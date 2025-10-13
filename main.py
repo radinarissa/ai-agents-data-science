@@ -1,5 +1,6 @@
 from agents import OrchestratorAgent
 
+
 def main():
     orchestrator = OrchestratorAgent()
 
@@ -7,9 +8,15 @@ def main():
 
     results = orchestrator.run_pipeline(data_file)
 
+    df = orchestrator.load_data(data_file)
+    charts, report = orchestrator.visualize_results(df, results)
+
     orchestrator.generate_report(results)
 
     orchestrator.save_logs()
+
+    print("\n✅ Pipeline completed! Open results/report.html to view the report.")
+
 
 if __name__ == "__main__":
     main()
