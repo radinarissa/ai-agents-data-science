@@ -1,9 +1,9 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from agent_model_selection import ModelSelectionAgent
-from agent_hyperparameter_tuning import HyperparameterTuningAgent
-from model_evaluation import ModelEvaluationAgent
+from agents.model_training.agent_model_selection import ModelSelectionAgent
+from agents.model_training.agent_hyperparameter_tuning import HyperparameterTuningAgent
+from agents.model_training.model_evaluation import ModelEvaluationAgent
 
 def main():
     # 📥 Load custom dataset
