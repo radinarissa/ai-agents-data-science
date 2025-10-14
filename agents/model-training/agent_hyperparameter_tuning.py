@@ -1,13 +1,11 @@
-# agent_hyperparameter_tuning.py
-
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
-from sklearn.ensemble import RandomForestClassifier
-from skopt import BayesSearchCV  # pip install scikit-optimize
+from sklearn.ensemble import RandomForestRegressor
+from skopt import BayesSearchCV 
 import numpy as np
 
 class HyperparameterTuningAgent:
-    def __init__(self, model=None, cv=3, scoring='accuracy'):
-        self.model = model or RandomForestClassifier()
+    def __init__(self, model=None, cv=3, scoring='r2'):
+        self.model = model or RandomForestRegressor()
         self.cv = cv
         self.scoring = scoring
 

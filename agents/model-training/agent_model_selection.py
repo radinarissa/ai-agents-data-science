@@ -1,35 +1,27 @@
-# agent_model_selection.py
-
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.svm import SVR
 from sklearn.model_selection import cross_val_score
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
-import numpy as np
 
 class ModelSelectionAgent:
-    def __init__(self, models=None, cv=5, scoring='accuracy'):
-        # Define default models if none provided
-        self.models = models or {
-            "LogisticRegression": LogisticRegression(max_iter=1000),
-            "RandomForest": RandomForestClassifier(),
-            "SVC": SVC()
-        }
+    def __init__(self, cv=5, scoring='r2'):
         self.cv = cv
         self.scoring = scoring
 
     def select_best_model(self, X_train, y_train):
+        models = {
+            "LinearRegression": LinearRegression(),
+            "RandomForest": RandomForestRegressor(),
+            "SVR": SVR()
+        }
+
         results = {}
-        print("🔍 Starting model selection...")
-        
-        for name, model in self.models.items():
+        for name, model in models.items():
             scores = cross_val_score(model, X_train, y_train, cv=self.cv, scoring=self.scoring)
-            results[name] = np.mean(scores)
-            print(f"✅ {name}: {results[name]:.4f}")
+            results[name] = scores.mean()
+            print(f"✅ {name}: {scores.mean():.4f}")
 
-        # Find best model
-        best_model_name = max(results, key=results.get)
-        best_model = self.models[best_model_name]
-
-        print(f"\n🏆 Best Model: {best_model_name} (Score: {results[best_model_name]:.4f})")
-        best_model.fit(X_train, y_train)
-        return best_model_name, best_model, results
+        best_name = max(results, key=results.get)
+        best_model = models[best_name]
+        print(f"🏆 Best Model: {best_name} (Score: {results[best_name]:.4f})")
+        return best_name, best_model, results
