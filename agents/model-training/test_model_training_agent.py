@@ -20,11 +20,28 @@ def main():
     # 2️⃣ Hyperparameter tuning
     print("\n=== HYPERPARAMETER TUNING ===")
     tuner = HyperparameterTuningAgent(model=best_model)
-    param_grid = {
+
+    if best_name == "RandomForest":
+        param_grid = {
         'n_estimators': [50, 100, 150],
         'max_depth': [3, 5, None]
     }
+    elif best_name == "LogisticRegression":
+     param_grid = {
+        'C': [0.1, 1.0, 10.0],
+        'penalty': ['l2'],
+        'solver': ['lbfgs', 'saga']
+    }
+    elif best_name == "SVC":
+        param_grid = {
+        'C': [0.1, 1.0, 10.0],
+        'kernel': ['linear', 'rbf']
+    }
+    else:
+        raise ValueError(f"Unknown model: {best_name}")
+
     best_tuned_model = tuner.grid_search(X_train, y_train, param_grid)
+
 
     # 3️⃣ Model evaluation
     print("\n=== MODEL EVALUATION ===")
