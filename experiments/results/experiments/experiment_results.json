@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Baseline Pipeline",
+    "timestamp": "2025-10-15 12:08:12",
+    "config": {
+      "type": "default"
+    },
+    "execution_time": 0.081,
+    "status": "success",
+    "metrics": {
+      "original_rows": 5000,
+      "original_columns": 26,
+      "processing_time": 0.0,
+      "processed_rows": 5000,
+      "training_time": 0.04,
+      "total_pipeline_time": 0.08
+    }
+  },
+  {
+    "name": "Performance Benchmark",
+    "timestamp": "2025-10-15 12:08:12",
+    "iterations": 3,
+    "times": [
+      0.046759843826293945,
+      0.04454493522644043,
+      0.05246233940124512
+    ],
+    "avg_time": 0.048,
+    "min_time": 0.045,
+    "max_time": 0.052
+  },
+  {
+    "name": "Data Size Comparison",
+    "timestamp": "2025-10-15 12:08:12",
+    "results": [
+      {
+        "size": 100,
+        "time": 0.038,
+        "status": "success"
+      },
+      {
+        "size": 500,
+        "time": 0.038,
+        "status": "success"
+      },
+      {
+        "size": 1000,
+        "time": 0.036,
+        "status": "success"
+      },
+      {
+        "size": 2500,
+        "time": 0.051,
+        "status": "success"
+      }
+    ]
+  }
+]
