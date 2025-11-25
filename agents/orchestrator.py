@@ -167,13 +167,13 @@ class OrchestratorAgent:
         self.log("=" * 60)
 
         if results['status'] == 'success':
-            self.log("\n📊 METRICS:")
+            self.log("\n METRICS:")
             for key, value in results['metrics'].items():
                 self.log(f"  {key}: {value}")
 
-            self.log("\n✅ Status: SUCCESS")
+            self.log("\n Status: SUCCESS")
         else:
-            self.log(f"\n❌ Status: FAILED")
+            self.log(f"\n Status: FAILED")
             self.log(f"Error: {results['error']}")
 
         self.log("=" * 60)

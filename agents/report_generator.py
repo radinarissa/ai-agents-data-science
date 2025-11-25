@@ -86,13 +86,13 @@ class ReportGenerator:
 </head>
 <body>
     <div class="container">
-        <h1>🤖 AI Agents Pipeline Report</h1>
+        <h1>AI Agents Pipeline Report</h1>
         <p><strong>Generated:</strong> {timestamp}</p>
 
-        <h2>📊 Status</h2>
+        <h2>Status</h2>
         <p class="status-{results['status']}">{results['status'].upper()}</p>
 
-        <h2>📈 Metrics</h2>
+        <h2>Metrics</h2>
         <div class="metrics">
 """
 
@@ -101,7 +101,7 @@ class ReportGenerator:
 
         html_content += """        </div>
 
-        <h2>📊 Visualizations</h2>
+        <h2>Visualizations</h2>
 """
 
         for chart_name, chart_path in charts.items():

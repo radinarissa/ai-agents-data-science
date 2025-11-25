@@ -1,56 +1,56 @@
 [
   {
     "name": "Baseline Pipeline",
-    "timestamp": "2025-10-15 12:08:12",
+    "timestamp": "2025-10-20 14:37:40",
     "config": {
       "type": "default"
     },
-    "execution_time": 0.081,
+    "execution_time": 0.14,
     "status": "success",
     "metrics": {
       "original_rows": 5000,
       "original_columns": 26,
       "processing_time": 0.0,
       "processed_rows": 5000,
-      "training_time": 0.04,
-      "total_pipeline_time": 0.08
+      "training_time": 0.07,
+      "total_pipeline_time": 0.14
     }
   },
   {
     "name": "Performance Benchmark",
-    "timestamp": "2025-10-15 12:08:12",
+    "timestamp": "2025-10-20 14:37:40",
     "iterations": 3,
     "times": [
-      0.046759843826293945,
-      0.04454493522644043,
-      0.05246233940124512
+      0.12118387222290039,
+      0.10188937187194824,
+      0.11056232452392578
     ],
-    "avg_time": 0.048,
-    "min_time": 0.045,
-    "max_time": 0.052
+    "avg_time": 0.111,
+    "min_time": 0.102,
+    "max_time": 0.121
   },
   {
     "name": "Data Size Comparison",
-    "timestamp": "2025-10-15 12:08:12",
+    "timestamp": "2025-10-20 14:37:41",
     "results": [
       {
         "size": 100,
-        "time": 0.038,
+        "time": 0.06,
         "status": "success"
       },
       {
         "size": 500,
-        "time": 0.038,
+        "time": 0.057,
         "status": "success"
       },
       {
         "size": 1000,
-        "time": 0.036,
+        "time": 0.067,
         "status": "success"
       },
       {
         "size": 2500,
-        "time": 0.051,
+        "time": 0.095,
         "status": "success"
       }
     ]

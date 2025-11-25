@@ -183,7 +183,7 @@ def main():
 
     runner.generate_summary()
 
-    print("\n✅ All experiments completed!")
+    print("\n All experiments completed!")
 
 
 if __name__ == "__main__":

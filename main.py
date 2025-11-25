@@ -15,7 +15,7 @@ def main():
 
     orchestrator.save_logs()
 
-    print("\n✅ Pipeline completed! Open results/report.html to view the report.")
+    print("\n Pipeline completed! Open results/report.html to view the report.")
 
 
 if __name__ == "__main__":
