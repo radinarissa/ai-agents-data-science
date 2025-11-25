@@ -22,15 +22,15 @@ class OrchestratorAgent:
 
         if data_processor:
             self.data_processor = data_processor
-            self.log("✓ Data Processor integrated")
+            self.log("Data Processor integrated")
         else:
-            self.log("⚠ Data Processor not provided - will use default processing")
+            self.log("Data Processor not provided - will use default processing")
 
         if model_trainer:
             self.model_trainer = model_trainer
-            self.log("✓ Model Trainer integrated")
+            self.log("Model Trainer integrated")
         else:
-            self.log("⚠ Model Trainer not provided - will skip training")
+            self.log("Model Trainer not provided - will skip training")
 
         return self
 
@@ -42,14 +42,14 @@ class OrchestratorAgent:
 
         try:
             df = pd.read_csv(data_path)
-            self.log(f"✓ Data loaded: {df.shape[0]} rows, {df.shape[1]} columns")
+            self.log(f"Data loaded: {df.shape[0]} rows, {df.shape[1]} columns")
 
             self.metrics['original_rows'] = df.shape[0]
             self.metrics['original_columns'] = df.shape[1]
 
             return df
         except Exception as e:
-            self.log(f"✗ Error loading data: {str(e)}")
+            self.log(f"Error loading data: {str(e)}")
             raise
 
     def process_data(self, df):
@@ -59,10 +59,10 @@ class OrchestratorAgent:
         try:
             if self.data_processor:
                 processed_df = self.data_processor.process(df)
-                self.log(f"✓ Data processed by Data Processor Agent")
+                self.log(f"Data processed by Data Processor Agent")
             else:
                 processed_df = self._default_processing(df)
-                self.log(f"✓ Data processed with default method")
+                self.log(f"Data processed with default method")
 
             processing_time = time.time() - start_time
             self.metrics['processing_time'] = round(processing_time, 2)
@@ -72,7 +72,7 @@ class OrchestratorAgent:
             return processed_df
 
         except Exception as e:
-            self.log(f"✗ Error in data processing: {str(e)}")
+            self.log(f"Error in data processing: {str(e)}")
             raise
 
     def _default_processing(self, df):
@@ -93,10 +93,10 @@ class OrchestratorAgent:
         try:
             if self.model_trainer:
                 results = self.model_trainer.train(processed_df)
-                self.log(f"✓ Model trained by Model Trainer Agent")
+                self.log(f"Model trained by Model Trainer Agent")
             else:
                 results = self._default_training(processed_df)
-                self.log(f"✓ Basic analysis completed (no model training)")
+                self.log(f"Basic analysis completed (no model training)")
 
             training_time = time.time() - start_time
             self.metrics['training_time'] = round(training_time, 2)
@@ -105,7 +105,7 @@ class OrchestratorAgent:
             return results
 
         except Exception as e:
-            self.log(f"✗ Error in model training: {str(e)}")
+            self.log(f"Error in model training: {str(e)}")
             raise
 
     def _default_training(self, df):
@@ -138,7 +138,7 @@ class OrchestratorAgent:
             self.metrics['total_pipeline_time'] = round(pipeline_time, 2)
 
             self.log("=" * 60)
-            self.log(f"✓ PIPELINE COMPLETED SUCCESSFULLY")
+            self.log(f"PIPELINE COMPLETED SUCCESSFULLY")
             self.log(f"Total time: {pipeline_time:.2f} seconds")
             self.log("=" * 60)
 
@@ -151,7 +151,7 @@ class OrchestratorAgent:
 
         except Exception as e:
             self.log("=" * 60)
-            self.log(f"✗ PIPELINE FAILED: {str(e)}")
+            self.log(f"PIPELINE FAILED: {str(e)}")
             self.log("=" * 60)
 
             return {
@@ -202,15 +202,15 @@ class OrchestratorAgent:
             charts['Pipeline Metrics'] = visualizer.plot_metrics(self.metrics)
             charts['Processing Time'] = visualizer.plot_processing_time(self.metrics)
 
-            self.log(f"✓ Charts generated")
+            self.log(f"Charts generated")
 
             report_gen = ReportGenerator()
             report_path = report_gen.generate_html_report(results, charts)
 
-            self.log(f"✓ HTML report: {report_path}")
+            self.log(f"HTML report: {report_path}")
 
             return charts, report_path
 
         except Exception as e:
-            self.log(f"⚠ Error generating visualizations: {str(e)}")
+            self.log(f"Error generating visualizations: {str(e)}")
             return {}, None
