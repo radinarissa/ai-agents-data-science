@@ -1,0 +1,10 @@
+,dtype,missing_%,unique_values,is_constant,variance,low_variance,impossible_values
+PassengerId,float64,0.0,847,False,62168.18989331518,False,
+Survived,float64,0.0,2,False,0.23135726806138793,False,
+Pclass,float64,0.0,3,False,0.6715015321756896,False,
+Sex,category,0.0,2,False,,False,
+Age,float64,0.0,87,False,155.29814288276017,False,0.0
+SibSp,float64,0.0,5,False,0.5553462212638242,False,
+Parch,float64,0.0,5,False,0.37800728886871215,False,
+Fare,float64,0.0,241,False,1024.4406580361708,False,0.0
+Embarked,category,0.22446689113355783,3,False,,False,
