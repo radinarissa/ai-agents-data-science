@@ -7,7 +7,8 @@ import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from agents import OrchestratorAgent
+from agents.orchestration  import OrchestratorAgent
+from agents.data_processing.main_agent import DataProcessingAgent
 
 
 class ExperimentRunner:
@@ -17,6 +18,14 @@ class ExperimentRunner:
         self.output_dir = "results/experiments"
         os.makedirs(self.output_dir, exist_ok=True)
 
+    def create_orchestrator(self):
+        orchestrator = OrchestratorAgent()
+
+        data_processor = DataProcessingAgent(pd.DataFrame())
+
+        orchestrator.integrate_agents(data_processor=data_processor)
+        return orchestrator
+
     def run_experiment(self, name, config):
         print(f"\n{'=' * 60}")
         print(f"Running experiment: {name}")
@@ -24,7 +33,7 @@ class ExperimentRunner:
 
         start_time = time.time()
 
-        orchestrator = OrchestratorAgent()
+        orchestrator = self.create_orchestrator()
         pipeline_results = orchestrator.run_pipeline(self.data_path)
 
         execution_time = time.time() - start_time
@@ -43,7 +52,7 @@ class ExperimentRunner:
 
         self.results.append(experiment_result)
 
-        print(f"✓ Experiment completed in {execution_time:.2f}s")
+        print(f"Experiment completed in {execution_time:.2f}s")
 
         return experiment_result
 
@@ -58,7 +67,7 @@ class ExperimentRunner:
             print(f"\nIteration {i + 1}/{iterations}")
 
             start = time.time()
-            orchestrator = OrchestratorAgent()
+            orchestrator = self.create_orchestrator()
             orchestrator.run_pipeline(self.data_path)
             elapsed = time.time() - start
 
@@ -111,7 +120,7 @@ class ExperimentRunner:
             sample_df.to_csv(temp_path, index=False)
 
             start = time.time()
-            orchestrator = OrchestratorAgent()
+            orchestrator = self.create_orchestrator()
             result = orchestrator.run_pipeline(temp_path)
             elapsed = time.time() - start
 
@@ -141,7 +150,7 @@ class ExperimentRunner:
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(self.results, f, indent=2)
 
-        print(f"\n✓ Results saved to: {filepath}")
+        print(f"\nResults saved to: {filepath}")
 
         return filepath
 
@@ -183,7 +192,7 @@ def main():
 
     runner.generate_summary()
 
-    print("\n All experiments completed!")
+    print("\nAll experiments completed!")
 
 
 if __name__ == "__main__":
