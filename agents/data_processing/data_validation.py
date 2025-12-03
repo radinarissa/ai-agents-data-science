@@ -23,6 +23,16 @@ class DataValidator:
 
         if "timestamp" in self.df.columns:
             summary.loc["timestamp", "is_datetime"] = True
+        numeric = self.df.select_dtypes(include=["number"])
+        if not numeric.empty:
+            summary.loc[numeric.columns, "variance"] = numeric.var()
+
+            summary["low_variance"] = summary["variance"] < 0.01
+
+            summary.loc[numeric.columns, "num_negatives"] = (numeric < 0).sum()
+
+        if "timestamp" in self.df.columns:
+            summary.loc["timestamp", "is_datetime"] = True
 
         print("✅ Data validation complete.")
         return summary

@@ -4,6 +4,13 @@ import matplotlib.pyplot as plt
 df = pd.read_csv("experiments/processed_dataset.csv")
 
 print("First 5 rows of the processed dataset:")
+print("First 5 rows of the processed dataset:")
+print(df.head())
+
+print("Column information:")
+print(df.info())
+
+print("Descriptive statistics:")
 print(df.head())
 
 print("Column information:")
