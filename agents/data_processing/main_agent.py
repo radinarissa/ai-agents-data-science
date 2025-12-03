@@ -22,8 +22,10 @@ class DataProcessingAgent:
 
         fe = FeatureEngineer(self.cleaned)
         self.features = fe.generate_features(max_depth=feature_depth)
-
-       
+        self.features = self.features.rename(columns={
+        "data_quuality_score": "data_quality_score"
+         })
+        
         validator = DataValidator(self.features)
         self.validation = validator.validate()
 

@@ -3,18 +3,18 @@ import matplotlib.pyplot as plt
 
 df = pd.read_csv("experiments/processed_dataset.csv")
 
-print("📊 First 5 rows of the processed dataset:")
+print("First 5 rows of the processed dataset:")
 print(df.head())
 
-print("\nℹ️ Column information:")
+print("Column information:")
 print(df.info())
 
-print("\n📈 Descriptive statistics:")
+print("Descriptive statistics:")
 print(df.describe())
 
 # Histogram of numeric features
 df.hist(figsize=(10, 6), bins=10)
-plt.suptitle("📊 Distribution of Numeric Features", fontsize=14)
+plt.suptitle("Distribution of Numeric Features", fontsize=14)
 plt.tight_layout()
 plt.savefig("results/histograms.png")
 plt.show()
@@ -26,7 +26,7 @@ plt.imshow(numeric_df.corr(), cmap='coolwarm', interpolation='none')
 plt.colorbar(label='Correlation')
 plt.xticks(range(len(numeric_df.columns)), numeric_df.columns, rotation=45)
 plt.yticks(range(len(numeric_df.columns)), numeric_df.columns)
-plt.title("🔸 Correlation Matrix (Numeric Features Only)")
+plt.title("Correlation Matrix (Numeric Features Only)")
 plt.tight_layout()
 plt.savefig("results/correlation_matrix.png")
 plt.show()
