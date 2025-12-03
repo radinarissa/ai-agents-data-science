@@ -1,2 +1,0 @@
-Model,Original RMSE,Tuned RMSE,Original R²,Tuned R²,Improvement (%),Tuning Time (s)
-LinearRegression,5.910855951884724e-16,5.910855951884724e-16,1.0,1.0,0.0,1.5371074676513672
