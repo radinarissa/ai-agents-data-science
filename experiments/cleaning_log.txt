@@ -8,6 +8,4 @@ Removed constant columns:
 []
 
 Removed low variance columns:
-[]
-
-
+['cost_per_task_cents', 'privacy_compliance_score', 'bias_detection_score', 'data_quality_score']
