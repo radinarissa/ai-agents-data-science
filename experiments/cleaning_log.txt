@@ -1,0 +1,11 @@
+Data Processing Pipeline Log
+----------------------------------
+Outlier contamination: 0.05
+Imputation strategy: median
+Feature depth: 1
+
+Removed constant columns:
+[]
+
+Removed low variance columns:
+['cost_per_task_cents', 'privacy_compliance_score', 'bias_detection_score', 'data_quality_score']
