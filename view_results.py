@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_csv("experiments/processed_dataset.csv")
+df = pd.read_csv("data/processed/processed_dataset.csv")
 
 print("First 5 rows of the processed dataset:")
 print("First 5 rows of the processed dataset:")
@@ -37,4 +37,3 @@ plt.title("Correlation Matrix (Numeric Features Only)")
 plt.tight_layout()
 plt.savefig("results/correlation_matrix.png")
 plt.show()
-

@@ -10,9 +10,7 @@ class DataProcessingAgent:
     def run_pipeline(self, contamination=0.05, impute_strategy="mean", feature_depth=1):
         print("🔹 Starting Data Processing Pipeline...")
 
-        from data_cleaning import DataCleaner
-        from feature_engineering import FeatureEngineer
-        from data_validation import DataValidator
+        from agents.data_processing import DataCleaner, FeatureEngineer, DataValidator
        
         cleaner = DataCleaner(self.df)
         self.cleaned = cleaner.detect_outliers(
@@ -41,6 +39,21 @@ class DataProcessingAgent:
             print(f"⚠️ Removing low variance columns: {low_var_cols}")
             self.features = self.features.drop(columns=low_var_cols)
 
+        # Encode categorical features
+        import pandas as pd
+        categorical_cols = self.features.select_dtypes(include=["object", "category"]).columns
+        if len(categorical_cols) > 0:
+            print(f"🔤 Encoding categorical columns: {list(categorical_cols)}")
+            self.features = pd.get_dummies(self.features, columns=categorical_cols, drop_first=True)
+
+        # Final check: ensure all columns are numeric
+        non_numeric = self.features.select_dtypes(exclude=["number"]).columns
+        if len(non_numeric) > 0:
+            print(f"⚠️ Warning: Non-numeric columns still present: {list(non_numeric)}")
+            # Force conversion if possible
+            self.features[non_numeric] = self.features[non_numeric].astype(str)
+            self.features = pd.get_dummies(self.features, columns=non_numeric, drop_first=True)
+
         print("✅ Pipeline completed successfully.")
 
        
@@ -63,6 +76,10 @@ class DataProcessingAgent:
             f.write(str(const_cols) + "\n")
             f.write("\nRemoved low variance columns:\n")
             f.write(str(low_var_cols) + "\n")
+            f.write("\nEncoded categorical columns:\n")
+            f.write(str(list(categorical_cols)) + "\n")
+            f.write("\nFinal feature set shape:\n")
+            f.write(str(self.features.shape) + "\n")
 
         print("💾 Saved processed dataset, validation report and logs to /experiments/")
 

@@ -1,7 +1,7 @@
 Data Processing Pipeline Log
 ----------------------------------
 Outlier contamination: 0.05
-Imputation strategy: median
+Imputation strategy: mean
 Feature depth: 1
 
 Removed constant columns:
@@ -9,3 +9,9 @@ Removed constant columns:
 
 Removed low variance columns:
 ['cost_per_task_cents', 'privacy_compliance_score', 'bias_detection_score', 'data_quality_score']
+
+Encoded categorical columns:
+['agent_type', 'model_architecture', 'deployment_environment', 'task_category', 'DAY(timestamp)', 'MONTH(timestamp)', 'WEEKDAY(timestamp)', 'YEAR(timestamp)']
+
+Final feature set shape:
+(5000, 98)
