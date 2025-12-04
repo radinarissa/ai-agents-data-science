@@ -47,7 +47,7 @@ class DataProcessingAgent:
         os.makedirs("experiments", exist_ok=True)
 
       
-        self.features.to_csv("experiments/processed_dataset.csv", index=False)
+        self.features.to_csv("data/processed/processed_dataset.csv", index=False)
 
         
         self.validation.to_csv("experiments/validation_report.csv")
