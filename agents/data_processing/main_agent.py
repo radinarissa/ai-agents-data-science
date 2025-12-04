@@ -92,6 +92,6 @@ class DataProcessingAgent:
             f.write("\nFinal feature set shape:\n")
             f.write(str(self.features.shape) + "\n")
 
-        print("💾 Saved processed dataset, validation report and logs to /experiments/")
+        print("💾 Saved processed dataset to /data/processed/; validation report and logs to /experiments/")
 
         return self.features, self.validation
