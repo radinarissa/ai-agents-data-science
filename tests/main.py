@@ -2,7 +2,7 @@ import sys, os
 import pandas as pd
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from agents.data_processing.main_agent import DataProcessingAgent
+from agents.data_processing.data_processing_agent import DataProcessingAgent
 from agents.model_training.model_training_agent import ModelTrainingAgent
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler

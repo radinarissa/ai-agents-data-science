@@ -37,6 +37,7 @@ def run_experiments():
     # -------------------------------
     # Experiment 4: Model Selection
     # -------------------------------
+
     print("\n=== Експеримент 4: Model Selection – Сравнителен анализ ===")
     selector = ModelSelectionAgent(cv=5, scoring='r2')
     best_name, best_model, results = selector.select_best_model(X_train_scaled, y_train)
@@ -44,6 +45,7 @@ def run_experiments():
     # -------------------------------
     # Experiment 5: Hyperparameter Tuning
     # -------------------------------
+
     print("\n=== Експеримент 5: Hyperparameter Tuning – A/B Тестове ===")
     tuner = HyperparameterTuningAgent(model=best_model, cv=5, scoring='r2')
 
@@ -74,6 +76,7 @@ def run_experiments():
     # -------------------------------
     # Experiment 6: Residual Analysis
     # -------------------------------
+
     print("\n=== Експеримент 6: Residual Analysis – Качество на предсказанията ===")
     evaluator = ModelEvaluationAgent()
 
@@ -123,7 +126,7 @@ def run_experiments():
 
     print("\n✅ Experiments complete. Results saved in experiments/results/")
 
-    # ✅ Save all results
+    # ✅ Save all results for 4-6
     os.makedirs("experiments/results", exist_ok=True)
     with open("experiments/results/all_results_4_5_6.json", "w") as f:
         json.dump({
@@ -131,6 +134,45 @@ def run_experiments():
             "tuning_metrics": tuning_metrics,
             "final_metrics": final_metrics
         }, f, indent=2)
+
+    # -------------------------------
+    # Experiment 10: Visualization of Processed Dataset
+    # -------------------------------
+
+    print("\n=== Експеримент 10: Visualization of Processed Dataset ===")
+
+    print("First 5 rows of the processed dataset:")
+    print(df.head())
+
+    print("\nColumn information:")
+    df.info()
+
+    print("\nDescriptive statistics:")
+    print(df.describe())
+
+    # Ensure results directory exists
+    os.makedirs("experiments/results", exist_ok=True)
+
+    # Histogram of numeric features
+    df.hist(figsize=(10, 6), bins=10)
+    plt.suptitle("Distribution of Numeric Features", fontsize=14)
+    plt.tight_layout()
+    plt.savefig("experiments/results/histograms.png", dpi=300)
+    plt.close()
+
+    # Correlation matrix for numeric columns
+    numeric_df = df.select_dtypes(include=['number'])
+    plt.figure(figsize=(8, 6))
+    plt.imshow(numeric_df.corr(), cmap='coolwarm', interpolation='none')
+    plt.colorbar(label='Correlation')
+    plt.xticks(range(len(numeric_df.columns)), numeric_df.columns, rotation=45)
+    plt.yticks(range(len(numeric_df.columns)), numeric_df.columns)
+    plt.title("Correlation Matrix (Numeric Features Only)")
+    plt.tight_layout()
+    plt.savefig("experiments/results/correlation_matrix.png", dpi=300)
+    plt.close()
+
+    print("✅ Visualization complete. Figures saved in experiments/results/")
 
 if __name__ == "__main__":
     run_experiments()

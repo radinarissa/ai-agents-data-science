@@ -1,5 +1,5 @@
 import os
-import pandas as pd   # ✅ import pandas at the top
+import pandas as pd
 
 class DataProcessingAgent:
     def __init__(self, df):
@@ -12,6 +12,10 @@ class DataProcessingAgent:
         print("🔹 Starting Data Processing Pipeline...")
 
         from agents.data_processing import DataCleaner, FeatureEngineer, DataValidator
+
+        # -------------------------------
+        # Experiment 7: Data Cleaning – Outlier Detection
+        # -------------------------------
        
         cleaner = DataCleaner(self.df)
         self.cleaned = cleaner.detect_outliers(
@@ -19,11 +23,19 @@ class DataProcessingAgent:
             impute_strategy=impute_strategy
         )
 
+        # -------------------------------
+        # Experiment 8: Feature Engineering – DFS Feature Generation
+        # -------------------------------
+
         fe = FeatureEngineer(self.cleaned)
         self.features = fe.generate_features(max_depth=feature_depth)
         self.features = self.features.rename(columns={
             "data_quuality_score": "data_quality_score"
         })
+
+        # -------------------------------
+        # Experiment 9: Data Validation and Feature Filtering
+        # -------------------------------
         
         validator = DataValidator(self.features)
         self.validation = validator.validate()

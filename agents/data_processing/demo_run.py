@@ -4,7 +4,7 @@ import os
 
 sys.path.append(os.path.dirname(__file__))
 
-from main_agent import DataProcessingAgent
+from agents.data_processing.data_processing_agent import DataProcessingAgent
 
 
 if __name__ == "__main__":
