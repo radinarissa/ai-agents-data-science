@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from agents.data_processing import DataCleaner, FeatureEngineer, DataValidator
 
 class DataProcessingAgent:
     def __init__(self, df):
@@ -10,8 +11,6 @@ class DataProcessingAgent:
 
     def run_pipeline(self, contamination=0.05, impute_strategy="mean", feature_depth=1):
         print("🔹 Starting Data Processing Pipeline...")
-
-        from agents.data_processing import DataCleaner, FeatureEngineer, DataValidator
 
         # -------------------------------
         # Experiment 7: Data Cleaning – Outlier Detection
@@ -29,9 +28,6 @@ class DataProcessingAgent:
 
         fe = FeatureEngineer(self.cleaned)
         self.features = fe.generate_features(max_depth=feature_depth)
-        self.features = self.features.rename(columns={
-            "data_quality_score": "data_quality_score"
-        })
 
         # -------------------------------
         # Experiment 9: Data Validation and Feature Filtering
@@ -79,10 +75,6 @@ class DataProcessingAgent:
             print(f"⚠️ Warning: Non-numeric columns still present: {list(non_numeric)}")
             self.features[non_numeric] = self.features[non_numeric].astype(str)
             self.features = pd.get_dummies(self.features, columns=non_numeric, drop_first=True)
-
-        # Preserve target column
-        if "success_rate" in self.cleaned.columns and "success_rate" not in self.features.columns:
-            self.features["success_rate"] = self.cleaned["success_rate"].values
 
         print("✅ Pipeline completed successfully.")
 
