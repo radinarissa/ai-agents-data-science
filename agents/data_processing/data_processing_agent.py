@@ -30,7 +30,7 @@ class DataProcessingAgent:
         fe = FeatureEngineer(self.cleaned)
         self.features = fe.generate_features(max_depth=feature_depth)
         self.features = self.features.rename(columns={
-            "data_quuality_score": "data_quality_score"
+            "data_quality_score": "data_quality_score"
         })
 
         # -------------------------------
@@ -63,8 +63,12 @@ class DataProcessingAgent:
             print(f"🔤 Encoding categorical columns: {list(categorical_cols)}")
             self.features = pd.get_dummies(self.features, columns=categorical_cols, drop_first=True)
 
-        # Detect and drop high-cardinality dummy features
-        high_card_cols = [col for col in self.features.columns if self.features[col].nunique() > 50]
+        # Detect and drop high-cardinality dummy features (exclude target column)
+        target_col = "success_rate"
+        high_card_cols = [
+            col for col in self.features.columns 
+            if col != target_col and self.features[col].nunique() > 50
+        ]
         if high_card_cols:
             print(f"🗑 Dropping high-cardinality features: {len(high_card_cols)} columns")
             self.features = self.features.drop(columns=high_card_cols)

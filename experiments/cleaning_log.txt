@@ -14,7 +14,7 @@ Encoded categorical columns:
 ['agent_type', 'model_architecture', 'deployment_environment', 'task_category']
 
 Dropped high-cardinality columns:
-['success_rate', 'accuracy_score', 'efficiency_score', 'execution_time_seconds', 'response_latency_ms', 'memory_usage_mb', 'cpu_usage_percent', 'error_recovery_rate', 'performance_index', 'cost_efficiency_ratio', 'autonomous_capability_score']
+['accuracy_score', 'efficiency_score', 'execution_time_seconds', 'response_latency_ms', 'memory_usage_mb', 'cpu_usage_percent', 'error_recovery_rate', 'performance_index', 'cost_efficiency_ratio', 'autonomous_capability_score']
 
 Final feature set shape:
 (5000, 44)
