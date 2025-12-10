@@ -32,7 +32,7 @@ class DataProcessingAgent:
         
         const_cols = self.validation[self.validation["is_constant"] == True].index.tolist()
         if const_cols:
-            print(f"🗑 Removing constant columns: {const_cols}")
+            print(f"Removing constant columns: {const_cols}")
             self.features = self.features.drop(columns=const_cols)
 
         
