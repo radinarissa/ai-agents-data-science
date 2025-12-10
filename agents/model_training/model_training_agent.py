@@ -1,5 +1,5 @@
-from model_training.agent_hyperparameter_tuning import HyperparameterTuningAgent
-from model_training.model_evaluation import ModelEvaluationAgent
+from agents.model_training.agent_hyperparameter_tuning import HyperparameterTuningAgent
+from agents.model_training.model_evaluation import ModelEvaluationAgent
 from transformers import pipeline
 import json
 

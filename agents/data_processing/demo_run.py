@@ -4,12 +4,10 @@ import os
 
 sys.path.append(os.path.dirname(__file__))
 
-from main_agent import DataProcessingAgent
+from agents.data_processing.data_processing_agent import DataProcessingAgent
 
 
 if __name__ == "__main__":
-    df = pd.read_csv("data/raw/agentic_ai_performance_dataset_20250622.csv")
-    
     df = pd.read_csv("data/raw/agentic_ai_performance_dataset_20250622.csv")
     
     agent = DataProcessingAgent(df)
@@ -20,4 +18,3 @@ if __name__ == "__main__":
     )
 
     print(validation.head())
-
