@@ -2,6 +2,8 @@ import pandas as pd
 import os
 import time
 from datetime import datetime
+# noinspection PyUnresolvedReferences
+from sklearn.model_selection import train_test_split
 
 
 class OrchestratorAgent:
@@ -37,6 +39,11 @@ class OrchestratorAgent:
                 self.metrics['llm_enabled'] = True
             else:
                 self.metrics['llm_enabled'] = False
+
+            if hasattr(model_trainer, 'fallback_used'):
+                self.metrics['fallback_used'] = model_trainer.fallback_used
+            else:
+                self.metrics['fallback_used'] = False
         else:
             self.log("WARNING: Model Training Agent not provided")
             self.log("System will require Model Training Agent to run")
@@ -107,19 +114,33 @@ class OrchestratorAgent:
                 self.log("ERROR: Model Training Agent is required!")
                 raise ValueError("Model Training Agent must be provided via integrate_agents()")
 
-            results = self.model_trainer.train(processed_df)
+            if "success_rate" not in processed_df.columns:
+                raise ValueError("Target column 'success_rate' missing")
+
+            X = processed_df.drop(columns=["success_rate"])
+            y = processed_df["success_rate"]
+
+            X_train, X_test, y_train, y_test = train_test_split(
+                X, y, test_size=0.2, random_state=42
+            )
+
+            self.log(f"Data split: {X_train.shape[0]} train, {X_test.shape[0]} test")
+
+            results = self.model_trainer.train_and_evaluate(X_train, y_train, X_test, y_test)
             self.log("Model trained by Model Training Agent")
 
             training_time = time.time() - start_time
             self.metrics['training_time'] = round(training_time, 2)
 
             if isinstance(results, dict):
-                if 'model_name' in results:
-                    self.log(f"Selected model: {results['model_name']}")
-                if 'score' in results:
-                    self.log(f"Model score: {results['score']:.4f}")
-                if 'best_params' in results:
-                    self.log(f"Best parameters: {results['best_params']}")
+                if 'name' in results:
+                    self.log(f"Selected model: {results['name']}")
+                if 'R2 Score' in results:
+                    self.log(f"Model R² score: {results['R2 Score']:.4f}")
+                if 'RMSE' in results:
+                    self.log(f"Model RMSE: {results['RMSE']:.4f}")
+                if 'MAE' in results:
+                    self.log(f"Model MAE: {results['MAE']:.4f}")
 
             self.log(f"Training completed in {training_time:.2f} seconds")
 

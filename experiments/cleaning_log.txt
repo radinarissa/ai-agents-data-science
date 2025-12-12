@@ -8,6 +8,13 @@ Removed constant columns:
 []
 
 Removed low variance columns:
-[]
+['cost_per_task_cents', 'privacy_compliance_score', 'bias_detection_score', 'data_quality_score']
 
+Encoded categorical columns:
+['agent_type', 'model_architecture', 'deployment_environment', 'task_category']
 
+Dropped high-cardinality columns:
+['accuracy_score', 'efficiency_score', 'execution_time_seconds', 'response_latency_ms', 'memory_usage_mb', 'cpu_usage_percent', 'error_recovery_rate', 'performance_index', 'cost_efficiency_ratio', 'autonomous_capability_score']
+
+Final feature set shape:
+(5000, 44)

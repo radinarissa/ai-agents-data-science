@@ -1,0 +1,43 @@
+{
+  "experiment_4_selection": {
+    "LinearRegression": {
+      "train": 0.8852295061629969,
+      "cv": 0.8817119552992077
+    },
+    "Ridge": {
+      "train": 0.8852293206812963,
+      "cv": 0.8817138397697128
+    },
+    "RandomForest": {
+      "train": 0.9866633002123368,
+      "cv": 0.9045038065485478
+    },
+    "SVR": {
+      "train": 0.8327352334190073,
+      "cv": 0.7958394804208029
+    }
+  },
+  "experiment_5_tuning": {
+    "Best Params": {
+      "max_depth": 5,
+      "min_samples_leaf": 2,
+      "min_samples_split": 5,
+      "n_estimators": 200
+    },
+    "R2 Score": 0.9173470685961839,
+    "RMSE": 0.04079083078664775,
+    "MAE": 0.029654937546680152,
+    "Time (s)": 160.44023442268372
+  },
+  "experiment_6_evaluation": {
+    "R2 Score": 0.9085799850083267,
+    "MAE": 0.0318113235054838,
+    "RMSE": 0.043648739885015816,
+    "Mean Residual": 0.0025200583573527506,
+    "Std Residual": 0.04357593142349693,
+    "Skewness": 0.2266330743374441,
+    "Kurtosis": 0.6477344474217177,
+    "Shapiro-Wilk Statistic": 0.9820256692071734,
+    "Shapiro-Wilk p-value": 9.120037924383714e-10
+  }
+}
