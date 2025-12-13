@@ -5,7 +5,6 @@ deployment_environment,category,0.0,6,False,,False,
 task_category,category,0.0,10,False,,False,
 task_complexity,float64,0.0,9,False,3.842687097419485,False,0.0
 autonomy_level,float64,0.0,10,False,5.027725185037008,False,0.0
-success_rate,float64,0.0,2652,False,0.020315622587677537,False,0.0
 accuracy_score,float64,0.0,2559,False,0.013252780348226046,False,0.0
 efficiency_score,float64,0.0,2821,False,0.011104590822760952,False,0.0
 execution_time_seconds,float64,0.0,3547,False,606.9389657815562,False,0.0
@@ -27,3 +26,4 @@ DAY(timestamp),category,0.0,31,False,,False,
 MONTH(timestamp),category,0.0,7,False,,False,
 WEEKDAY(timestamp),category,0.0,7,False,,False,
 YEAR(timestamp),category,0.0,2,False,,False,
+success_rate,float64,0.0,2652,False,0.020315622587677537,False,0.0

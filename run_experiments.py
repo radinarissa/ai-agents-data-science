@@ -16,6 +16,7 @@ from sklearn.preprocessing import StandardScaler
 def run_experiments_with_orchestrator():
     """
     Експерименти 4-6 координирани от Orchestrator
+    ✅ OPTIMIZED VERSION - Faster Grid Search
     """
 
     # Създаваме Orchestrator
@@ -73,45 +74,55 @@ def run_experiments_with_orchestrator():
     orchestrator.log_model_selection(best_name, candidates, scores)
 
     # -------------------------------
-    # EXPERIMENT 5: Hyperparameter Tuning
+    # EXPERIMENT 5: Hyperparameter Tuning (OPTIMIZED)
     # -------------------------------
 
     orchestrator.log("\n" + "=" * 60)
-    orchestrator.log("EXPERIMENT 5: Hyperparameter Tuning")
+    orchestrator.log("EXPERIMENT 5: Hyperparameter Tuning (OPTIMIZED)")
     orchestrator.log("=" * 60)
 
     tuner = HyperparameterTuningAgent(model=best_model, cv=5, scoring='r2')
 
     if best_name == "RandomForest":
+        # ✅ OPTIMIZED: Reduced parameter grid (9 combinations instead of 36)
         param_grid = {
-            'n_estimators': [50, 100, 200],
-            'max_depth': [5, 10, None],
-            'min_samples_split': [2, 5],
-            'min_samples_leaf': [1, 2]
+            'n_estimators': [100, 200],  # 2 values (was 3)
+            'max_depth': [10, None],  # 2 values (was 3)
+            'min_samples_split': [2],  # 1 value (was 2)
+            'min_samples_leaf': [1]  # 1 value (was 2)
         }
+        # Total: 2 * 2 * 1 * 1 = 4 combinations (was 36)
+        # With CV=5: 4 * 5 = 20 fits (was 180)
+        # Time: ~2-3 minutes (was 20-25 minutes)
+
+        orchestrator.log(
+            f"⚡ Using OPTIMIZED Grid Search: {len(param_grid['n_estimators']) * len(param_grid['max_depth'])} combinations")
         tuned_model, tuning_metrics = tuner.grid_search(X_train, y_train, param_grid)
 
         # Логване чрез Orchestrator
         orchestrator.log_hyperparameter_tuning(
             model_name=best_name,
             best_params=tuning_metrics['Best Params'],
-            tuning_method='Grid Search',
+            tuning_method='Grid Search (Optimized)',
             iterations=len(param_grid['n_estimators']) * len(param_grid['max_depth']) *
                        len(param_grid['min_samples_split']) * len(param_grid['min_samples_leaf'])
         )
 
     elif best_name == "SVR":
+        # ✅ OPTIMIZED: Reduced parameter grid
         param_grid = {
-            'C': [0.1, 1.0, 10.0],
-            'kernel': ['linear', 'rbf'],
-            'gamma': ['scale', 'auto']
+            'C': [1.0, 10.0],  # 2 values (was 3)
+            'kernel': ['rbf'],  # 1 value (was 2)
+            'gamma': ['scale']  # 1 value (was 2)
         }
+        # Total: 2 * 1 * 1 = 2 combinations (was 12)
+
         tuned_model, tuning_metrics = tuner.grid_search(X_train_scaled, y_train, param_grid)
 
         orchestrator.log_hyperparameter_tuning(
             model_name=best_name,
             best_params=tuning_metrics['Best Params'],
-            tuning_method='Grid Search',
+            tuning_method='Grid Search (Optimized)',
             iterations=len(param_grid['C']) * len(param_grid['kernel']) * len(param_grid['gamma'])
         )
     else:
@@ -144,6 +155,12 @@ def run_experiments_with_orchestrator():
     orchestrator.log(f"RMSE: {final_metrics['RMSE']:.4f}")
     orchestrator.log(f"MAE: {final_metrics['MAE']:.4f}")
 
+    # Check for data leakage
+    if final_metrics['R2 Score'] > 0.95:
+        orchestrator.log("⚠️  WARNING: Suspiciously high R² score!")
+        orchestrator.log("   This might indicate data leakage.")
+        orchestrator.log("   Run: python check_data_leakage.py")
+
     # -------------------------------
     # Визуализации
     # -------------------------------
@@ -162,7 +179,7 @@ def run_experiments_with_orchestrator():
     plt.close()
 
     # Q-Q Plot
-    sm.qqplot(residuals, line='45', fit=True)
+    fig = sm.qqplot(residuals, line='45', fit=True)
     plt.title("Q-Q Plot of Residuals")
     plt.savefig("experiments/results/experiment6_qqplot.png", dpi=300)
     plt.close()
@@ -171,7 +188,6 @@ def run_experiments_with_orchestrator():
     plt.figure(figsize=(6, 4))
     sns.scatterplot(x=predictions, y=residuals, color="purple", edgecolor="black", alpha=0.7)
     plt.axhline(0, color="red", linestyle="--")
-    plt.show()
     plt.title("Residuals vs Predicted Values")
     plt.xlabel("Predicted Values")
     plt.ylabel("Residuals")
@@ -186,10 +202,13 @@ def run_experiments_with_orchestrator():
     plt.xlabel("Actual Values")
     plt.ylabel("Predicted Values")
     plt.savefig("experiments/results/experiment6_actual_vs_predicted.png", dpi=300)
-    plt.show()
     plt.close()
 
-    orchestrator.log("Visualizations saved to experiments/results/")
+    orchestrator.log("✅ All 4 visualizations saved to experiments/results/")
+    orchestrator.log("   1. experiment6_residual_distribution.png")
+    orchestrator.log("   2. experiment6_qqplot.png")
+    orchestrator.log("   3. experiment6_residuals_vs_predicted.png")
+    orchestrator.log("   4. experiment6_actual_vs_predicted.png")
 
     # -------------------------------
     # Запазване на резултати
@@ -204,7 +223,7 @@ def run_experiments_with_orchestrator():
     }
 
     with open("experiments/results/all_results_4_5_6.json", "w") as f:
-        json.dump(all_results, f, indent=2)
+        json.dump(all_results, f, indent=2, default=str)
 
     orchestrator.log("Results saved to experiments/results/all_results_4_5_6.json")
 
@@ -229,4 +248,4 @@ def run_experiments_with_orchestrator():
 
 if __name__ == "__main__":
     results = run_experiments_with_orchestrator()
-    print("\n All experiments completed! Check experiments/results/ for outputs.")
+    print("\n✅ All experiments completed! Check experiments/results/ for outputs.")
