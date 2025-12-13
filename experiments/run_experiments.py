@@ -8,7 +8,7 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from agents.orchestration  import OrchestratorAgent
-from agents.data_processing.main_agent import DataProcessingAgent
+from agents.data_processing.data_processing_agent import DataProcessingAgent
 
 
 class ExperimentRunner:
