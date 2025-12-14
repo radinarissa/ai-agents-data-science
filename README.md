@@ -1,178 +1,172 @@
 # AI Agents for Data Science Automation
 
-Multi-agent система с три специализирани модула за автоматизация на data science процеси.
+Multi-agent система за автоматизация на ML pipeline – от обработка на данни до обучение, оценка и визуализация.
 
-##  Modules
+## 🎯 Какво прави?
 
-###  Data Processing Agent
-**Отговорности:**
-- Data cleaning (missing values, outliers)
-- Feature engineering
-- Data validation
+Три специализирани агента работят заедно за автоматизиране на data science процеси:
+- **Data Processing Agent**: Cleaning, feature engineering, validation (Experiments 7–9)
+- **Model Training Agent**: Model selection, hyperparameter tuning, evaluation (Experiments 4–6)
+- **Orchestrator Agent**: Координация, визуализации, отчети (Experiments 1–3)
 
-**Използване:**
-```python
-from agents import DataProcessingAgent
-
-processor = DataProcessingAgent()
-cleaned_data = processor.process(raw_data)
-```
-
-**Dependencies:**
-```
-pandas>=2.0.0
-numpy>=1.24.0
-scikit-learn>=1.3.0
-```
+Допълнително:
+- **Experiment 10**: Визуализация на обработените данни (диаграми, корелации, статистики)
 
 ---
 
-### Model Training Agent
-**Отговорности:**
-- Automated model selection
-- Hyperparameter tuning
-- Model evaluation
+## 🧪 Experiments Overview
 
-**Използване:**
-```python
-from agents import ModelTrainingAgent
-
-trainer = ModelTrainingAgent()
-results = trainer.train(processed_data)
-```
-
-**Dependencies:**
-```
-scikit-learn>=1.3.0
-optuna>=3.5.0
-xgboost>=2.0.0
-```
+| Experiment | Agent            | Purpose                                | Output Files |
+|------------|------------------|----------------------------------------|--------------|
+| 1–3        | Orchestrator     | Initialize pipeline, logging, reporting| results/report.html, results/pipeline_logs.txt |
+| 7–9        | Data Processing  | Cleaning, feature engineering, validation | data/processed/processed_dataset.csv, experiments/validation_report.csv |
+| 4–6        | Model Training   | Model selection, hyperparameter tuning, residual analysis | experiments/results/all_results_4_5_6.json, residual plots |
+| 10         | Visualization    | Histograms, correlation matrix, descriptive stats | experiments/results/histograms.png, correlation_matrix.png, descriptive_statistics.csv |
 
 ---
 
-### Orchestrator Agent
-**Отговорности:**
-- Pipeline coordination
-- Agent integration
-- Visualization & reporting
+## 🚀 Quick Start
 
-**Използване:**
-```python
-from agents import OrchestratorAgent
-
-orchestrator = OrchestratorAgent()
-orchestrator.integrate_agents(data_processor, model_trainer)
-results = orchestrator.run_pipeline("data/raw/dataset.csv")
-```
-
-**Dependencies:**
-```
-matplotlib>=3.7.0
-seaborn>=0.12.0
-langchain>=0.1.0
-```
-
-## Setup
+### 1. Setup
 
 ```bash
 git clone https://github.com/radinarissa/ai-agents-data-science.git
 cd ai-agents-data-science
+python -m venv .venv
+.venv\Scripts\activate   # Windows
 pip install -r requirements.txt
-```
+2. Download Dataset
+Download от Kaggle → Сложи agentic_ai_performance_dataset_20250622.csv в data/raw/
 
-**All Dependencies:**
-```
-# Data Processing
-pandas>=2.0.0
-numpy>=1.24.0
-scikit-learn>=1.3.0
-
-# Model Training
-optuna>=3.5.0
-xgboost>=2.0.0
-
-# Orchestration & Visualization
-matplotlib>=3.7.0
-seaborn>=0.12.0
-langchain>=0.1.0
-
-# Utilities
-jupyter>=1.0.0
-```
-
-##  Usage
-
-**Quick Start:**
-```bash
+3. Run Pipeline
+bash
+# Full pipeline (Experiments 1–3, 7–9, 4–6)
 python main.py
-```
 
-**Run Experiments:**
-```bash
+# Advanced experiments only (Experiments 4–6)
 python run_experiments.py
-```
 
-**Full Pipeline:**
-```python
-from agents import OrchestratorAgent, DataProcessingAgent, ModelTrainingAgent
-
-# Initialize agents
-processor = DataProcessingAgent()
-trainer = ModelTrainingAgent()
-orchestrator = OrchestratorAgent()
-
-# Integrate and run
-orchestrator.integrate_agents(processor, trainer)
-results = orchestrator.run_pipeline("data.csv")
-```
-
-## Структура на проекта
-
-```
-ai-agents-data-science/
-│
+# Dataset visualization (Experiment 10)
+python experiment_10.py
+📁 Key Files
+Code
+├── main.py                          # Full pipeline execution (1–3, 7–9, 4–6)
+├── run_experiments.py               # Experiments 4–6 (model selection, tuning, analysis)
+├── experiment_10.py                 # Experiment 10 (dataset visualization)
 ├── agents/
-│   ├── __init__.py
-│   ├── orchestrator.py          # Orchestrator Agent
-│   ├── visualizer.py            # Visualization Agent
-│   └── report_generator.py      # Report Generator Agent
-│
-├── data/
-│   ├── raw/
-│   │   └── agentic_ai_performance_dataset_20250622.csv
-│   └── processed/               # Temporary processed data
-│
-├── results/
-│   ├── figures/                 # Generated charts
-│   ├── experiments/             # Experiment results
-│   ├── report.html             # HTML report
-│   └── pipeline_logs.txt       # Execution logs
-│
-├── main.py                      # Main entry point
-├── run_experiments.py           # Experiment runner
-├── data_analysis.ipynb          # Jupyter notebook analysis
-├── requirements.txt             # Python dependencies
-├── .gitignore
-└── README.md
-```
+│   ├── data_processing/
+│   │   ├── data_processing_agent.py # Experiments 7–9
+│   │   ├── data_cleaning.py         # Outlier detection
+│   │   ├── feature_engineering.py   # DFS feature generation
+│   │   └── data_validation.py       # Feature filtering
+│   ├── model_training/
+│   │   ├── model_training_agent.py  # Training coordinator
+│   │   ├── agent_model_selection.py # Experiment 4
+│   │   ├── agent_hyperparameter_tuning.py # Experiment 5
+│   │   └── model_evaluation.py      # Experiment 6
+│   └── orchestration/
+│       ├── orchestrator.py          # Experiments 1–3
+│       ├── visualizer.py            # Charts generation
+│       └── report_generator.py      # HTML reports
+└── data/
+    ├── raw/                         # Original dataset
+    └── processed/                   # Processed data (auto-generated)
+🧪 Testing
+Test 1: Basic Pipeline
+bash
+python main.py
+Очаквано:
 
-## Dataset
+Data processing: ~2 seconds
 
-**Source:** [Kaggle - Agentic AI Performance Dataset](https://www.kaggle.com/datasets/bismasajjad/agentic-ai-performance-and-capabilities-dataset)
+Model training: ~30 seconds
 
-- 5000 records, 26 features
-- AI agents performance metrics
+Output: results/report.html, results/pipeline_logs.txt
 
-**Key Features:**
-- `success_rate`, `accuracy_score`, `efficiency_score`
-- `memory_usage_mb`, `cpu_usage_percent`
-- `autonomy_level`, `task_complexity`
+Metrics: R² ≈ 0.91, RMSE ≈ 0.044
 
-## Experiments
+Test 2: Advanced Experiments
+bash
+python run_experiments.py
+Очаквано:
 
-**Benchmarks:**
-- Baseline pipeline
-- Performance iterations (3-5 runs)
-- Data size scaling (100-5000 records)
+Experiment 4: Model Selection (~17 sec) → RandomForest wins
 
-**Results:** `results/experiments/experiment_results.json`
+Experiment 5: Hyperparameter Tuning (~62 sec) → Optimized params
+
+Experiment 6: Residual Analysis (~3 sec) → 4 plots + metrics
+
+Output: experiments/results/all_results_4_5_6.json, plots
+
+Test 3: Dataset Visualization
+bash
+python experiment_10.py
+Очаквано:
+
+Histograms of numeric features
+
+Correlation matrix heatmap
+
+Descriptive statistics CSV
+
+Output: experiments/results/histograms.png, correlation_matrix.png, descriptive_statistics.csv
+
+📊 Results
+След run, провери:
+
+Console Output:
+
+Data processing logs
+
+Model metrics (R², RMSE, MAE)
+
+Training time
+
+Files:
+
+Code
+results/
+├── report.html              # HTML dashboard
+├── pipeline_logs.txt        # Full execution log
+├── actual_vs_predicted.png
+└── residual_distribution.png
+
+experiments/results/
+├── all_results_4_5_6.json   # Experiment 4–6 metrics
+├── experiment6_*.png        # Residual analysis plots
+├── histograms.png           # Experiment 10 histograms
+├── correlation_matrix.png   # Experiment 10 correlation heatmap
+└── descriptive_statistics.csv
+Expected Metrics (after data leakage fix):
+
+R² Score: ~0.906
+
+RMSE: ~0.044
+
+MAE: ~0.032
+
+Dataset: 5000 rows, 44 features (after cleaning)
+
+⚙️ Configuration
+Edit в main.py:
+
+python
+# Data processing
+contamination=0.05     # Outlier detection threshold
+impute_strategy="median"
+feature_depth=1        # DFS depth
+
+# Model training
+experiments = [...]    # Add/remove models
+
+📈 Key Features
+✅ Data Leakage Prevention: Target separation преди feature engineering ✅ Optimized Grid Search: 4 комбинации (8.7x по-бързо) ✅ Automated Feature Engineering: DFS с featuretools ✅ Model Comparison: 4 models (RandomForest, Ridge, LinearReg, SVR) ✅ Residual Analysis: Shapiro-Wilk test, Q-Q plot, distribution ✅ Dataset Visualization: Histograms, correlation matrix, descriptive stats (Experiment 10) ✅ Comprehensive Logging: Orchestrator tracks всичко
+
+🎓 Project Info
+Dataset: Agentic AI Performance Dataset Tech Stack: Python, scikit-learn, featuretools, pandas, matplotlib, seaborn, statsmodels
+
+Quick Test:
+
+bash
+python main.py
+→ трябва да завърши за ~30 секунди с R² ≈ 0.91

@@ -12,7 +12,7 @@ import os
 class DataProcessingWrapper:
     def __init__(self):
         self.agent = None
-        self.processed_df = None  # ✅ ADD: Store processed data
+        self.processed_df = None
 
     def process(self, df):
         self.agent = DataProcessingAgent(df)
@@ -21,13 +21,11 @@ class DataProcessingWrapper:
             impute_strategy="median",
             feature_depth=1
         )
-        # ✅ STORE the processed dataframe
         self.processed_df = features
         return features
 
 
 def main():
-    # ✅ FIX: Check if data file exists
     data_file = "data/raw/agentic_ai_performance_dataset_20250622.csv"
     if not os.path.exists(data_file):
         raise FileNotFoundError(f"❌ Dataset not found: {data_file}\n"
@@ -59,7 +57,7 @@ def main():
             'name': 'RandomForest',
             'model': RandomForestRegressor(random_state=42),
             'params': {'n_estimators': 100, 'max_depth': 10},
-            'use_llm': True  # Will use Bayesian Optimization with LLM-suggested params
+            'use_llm': True 
         }
     ]
 
@@ -79,21 +77,16 @@ def main():
 
     results = orchestrator.run_pipeline(data_file)
 
-    # ✅ FIX: Use PROCESSED data for visualizations, not raw data!
-    # The data_processor now stores the processed dataframe
     if data_processor.processed_df is not None:
         processed_df = data_processor.processed_df
         print(
             f"\n✅ Using processed data for visualizations ({processed_df.shape[0]} rows, {processed_df.shape[1]} features)")
     else:
-        # Fallback to raw data if processed data is not available
         print("\n⚠️ Warning: Processed data not available, using raw data")
         processed_df = pd.read_csv(data_file)
 
-    # Generate visualizations using PROCESSED data
     charts, report = orchestrator.visualize_results(processed_df, results)
 
-    # Generate final report
     orchestrator.generate_report(results)
     orchestrator.save_logs()
 

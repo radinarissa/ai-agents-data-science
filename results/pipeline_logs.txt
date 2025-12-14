@@ -1,68 +1,42 @@
-[2025-12-13 22:48:21] Integrating agents...
-[2025-12-13 22:48:21] Data Processing Agent integrated
-[2025-12-13 22:48:21] Model Training Agent integrated
-[2025-12-13 22:48:21] LLM capabilities detected in Model Training Agent
-[2025-12-13 22:48:21] ============================================================
-[2025-12-13 22:48:21] STARTING AI AGENTS PIPELINE
-[2025-12-13 22:48:21] ============================================================
-[2025-12-13 22:48:21] Loading data from: data/raw/agentic_ai_performance_dataset_20250622.csv
-[2025-12-13 22:48:21] Data loaded successfully: 5000 rows, 26 columns
-[2025-12-13 22:48:21] ============================================================
-[2025-12-13 22:48:21] STEP 1: DATA PROCESSING
-[2025-12-13 22:48:21] ============================================================
-[2025-12-13 22:48:23] Data processed by Data Processing Agent
-[2025-12-13 22:48:23] Processing completed in 1.96 seconds
-[2025-12-13 22:48:23] Rows removed: 0
-[2025-12-13 22:48:23] Columns added (features): 18
-[2025-12-13 22:48:23] ============================================================
-[2025-12-13 22:48:23] STEP 2: MODEL TRAINING
-[2025-12-13 22:48:23] ============================================================
-[2025-12-13 22:48:23] Data split: 4000 train, 1000 test
-[2025-12-13 22:48:53] Model trained by Model Training Agent
-[2025-12-13 22:48:53] Selected model: RandomForest
-[2025-12-13 22:48:53] Model R² score: 0.9084
-[2025-12-13 22:48:53] Model RMSE: 0.0437
-[2025-12-13 22:48:53] Model MAE: 0.0322
-[2025-12-13 22:48:53] Training completed in 29.47 seconds
-[2025-12-13 22:48:53] ============================================================
-[2025-12-13 22:48:53] PIPELINE COMPLETED SUCCESSFULLY
-[2025-12-13 22:48:53] Total execution time: 31.50 seconds
-[2025-12-13 22:48:53] ============================================================
-[2025-12-13 22:48:53] ============================================================
-[2025-12-13 22:48:53] GENERATING VISUALIZATIONS
-[2025-12-13 22:48:53] ============================================================
-[2025-12-13 22:48:56] Data overview chart generated
-[2025-12-13 22:48:57] Pipeline metrics chart generated
-[2025-12-13 22:48:58] Processing time chart generated
-[2025-12-13 22:48:58] HTML report generated: results\report.html
-[2025-12-13 22:48:58] ============================================================
-[2025-12-13 22:48:58] 
+[2025-12-14 02:46:52] Integrating agents...
+[2025-12-14 02:46:52] Data Processing Agent integrated
+[2025-12-14 02:46:52] Model Training Agent integrated
+[2025-12-14 02:46:52] LLM capabilities detected in Model Training Agent
+[2025-12-14 02:46:52] ============================================================
+[2025-12-14 02:46:52] STARTING AI AGENTS PIPELINE
+[2025-12-14 02:46:52] ============================================================
+[2025-12-14 02:46:52] Loading data from: data/raw/agentic_ai_performance_dataset_20250622.csv
+[2025-12-14 02:46:52] Data loaded successfully: 5000 rows, 26 columns
+[2025-12-14 02:46:52] ============================================================
+[2025-12-14 02:46:52] STEP 1: DATA PROCESSING
+[2025-12-14 02:46:52] ============================================================
+[2025-12-14 02:46:53] Data processed by Data Processing Agent
+[2025-12-14 02:46:53] Processing completed in 1.13 seconds
+[2025-12-14 02:46:53] Rows removed: 0
+[2025-12-14 02:46:53] Columns added (features): 18
+[2025-12-14 02:46:53] ============================================================
+[2025-12-14 02:46:53] STEP 2: MODEL TRAINING
+[2025-12-14 02:46:53] ============================================================
+[2025-12-14 02:46:53] Data split: 4000 train, 1000 test
+[2025-12-14 02:46:55] ERROR in model training: Could not find a suitable TLS CA certificate bundle, invalid path: C:\Program Files\PostgreSQL\18\ssl\certs\ca-bundle.crt
+[2025-12-14 02:46:55] ============================================================
+[2025-12-14 02:46:55] PIPELINE FAILED
+[2025-12-14 02:46:55] Error: Could not find a suitable TLS CA certificate bundle, invalid path: C:\Program Files\PostgreSQL\18\ssl\certs\ca-bundle.crt
+[2025-12-14 02:46:55] Failed after: 3.16 seconds
+[2025-12-14 02:46:55] ============================================================
+[2025-12-14 02:46:55] ============================================================
+[2025-12-14 02:46:55] GENERATING VISUALIZATIONS
+[2025-12-14 02:46:55] ============================================================
+[2025-12-14 02:46:57] Data overview chart generated
+[2025-12-14 02:46:57] Pipeline metrics chart generated
+[2025-12-14 02:46:58] Processing time chart generated
+[2025-12-14 02:46:58] HTML report generated: results\report.html
+[2025-12-14 02:46:58] ============================================================
+[2025-12-14 02:46:58] 
 ============================================================
-[2025-12-13 22:48:58] PIPELINE REPORT
-[2025-12-13 22:48:58] ============================================================
-[2025-12-13 22:48:58] 
-METRICS:
-[2025-12-13 22:48:58]   llm_enabled: True
-[2025-12-13 22:48:58]   fallback_used: False
-[2025-12-13 22:48:58]   original_rows: 5000
-[2025-12-13 22:48:58]   original_columns: 26
-[2025-12-13 22:48:58]   processing_time: 1.96
-[2025-12-13 22:48:58]   processed_rows: 5000
-[2025-12-13 22:48:58]   processed_columns: 44
-[2025-12-13 22:48:58]   training_time: 29.47
-[2025-12-13 22:48:58]   total_pipeline_time: 31.5
-[2025-12-13 22:48:58] 
-Status: SUCCESS
-[2025-12-13 22:48:58] 
-MODEL RESULTS:
-[2025-12-13 22:48:58]   R2 Score: 0.9083699832880178
-[2025-12-13 22:48:58]   MAE: 0.03224669510741313
-[2025-12-13 22:48:58]   RMSE: 0.0437294882228765
-[2025-12-13 22:48:58]   Mean Residual: 0.0024719486622709094
-[2025-12-13 22:48:58]   Std Residual: 0.04365956493193435
-[2025-12-13 22:48:58]   Skewness: 0.2697283862036817
-[2025-12-13 22:48:58]   Kurtosis: 0.6063109719852133
-[2025-12-13 22:48:58]   Shapiro-Wilk Statistic: 0.9820142008390736
-[2025-12-13 22:48:58]   Shapiro-Wilk p-value: 9.031562908132451e-10
-[2025-12-13 22:48:58]   name: RandomForest
-[2025-12-13 22:48:58] ============================================================
+[2025-12-14 02:46:58] PIPELINE REPORT
+[2025-12-14 02:46:58] ============================================================
+[2025-12-14 02:46:58] 
+Status: FAILED
+[2025-12-14 02:46:58] Error: Could not find a suitable TLS CA certificate bundle, invalid path: C:\Program Files\PostgreSQL\18\ssl\certs\ca-bundle.crt
+[2025-12-14 02:46:58] ============================================================

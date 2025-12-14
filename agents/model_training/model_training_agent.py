@@ -17,7 +17,7 @@ class ModelTrainingAgent:
 
     def train_and_evaluate(self, X_train, y_train, X_test, y_test):
         os.makedirs("results", exist_ok=True)
-        evaluator = ModelEvaluationAgent()  # ✅ instantiate evaluator
+        evaluator = ModelEvaluationAgent()
 
         for config in self.experiments:
             model = config['model']
@@ -27,13 +27,10 @@ class ModelTrainingAgent:
             if use_llm:
                 print(f"🤖 Applying LLM-guided tuning for {name}...")
                 model = self._apply_llm_method(model, X_train, y_train)
-                # Model is already trained by _apply_llm_method
             else:
-                # Only set params and train for non-LLM models
                 model.set_params(**config['params'])
                 model.fit(X_train, y_train)
 
-            # ✅ use evaluation agent
             metrics = evaluator.evaluate_model(model, X_test, y_test)
             metrics["name"] = name
             metrics["model"] = model
@@ -42,7 +39,6 @@ class ModelTrainingAgent:
         return self._select_best_model()
 
     def _select_best_model(self):
-        # ✅ match key name from ModelEvaluationAgent
         return max(self.results, key=lambda x: x["R2 Score"])
 
     def _apply_llm_method(self, model, X, y):
@@ -52,10 +48,8 @@ class ModelTrainingAgent:
             "target_type": y.dtype.name
         }
 
-        # 🔹 Вземаме fallback параметри (LLM само за логване)
         suggestion = self._query_llm(dataset_info)
 
-        # 🔧 Опитваме Bayesian Optimization
         self.fallback_used = False
         try:
             tuner = HyperparameterTuningAgent(model=model)
@@ -66,7 +60,6 @@ class ModelTrainingAgent:
             )
             print(f"🤖 LLM-guided tuning metrics: {metrics}")
 
-            # 🔒 Проверка дали моделът е обучен
             if not hasattr(best_model, "predict"):
                 raise ValueError("Returned model is not fitted.")
 

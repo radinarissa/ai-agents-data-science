@@ -22,7 +22,6 @@ class DataProcessingAgent:
             impute_strategy=impute_strategy
         )
 
-        # ✅ FIX: Remove target BEFORE feature engineering to prevent data leakage!
         target_col = "success_rate"
         if target_col in self.cleaned.columns:
             print(f"🔒 Separating target column '{target_col}' to prevent data leakage...")
@@ -37,7 +36,7 @@ class DataProcessingAgent:
         # Experiment 8: Feature Engineering – DFS Feature Generation
         # -------------------------------
 
-        fe = FeatureEngineer(features_only)  # ✅ Only use features, NOT target!
+        fe = FeatureEngineer(features_only) 
         self.features = fe.generate_features(max_depth=feature_depth)
 
         # ✅ Add target back AFTER feature engineering
@@ -52,16 +51,14 @@ class DataProcessingAgent:
         validator = DataValidator(self.features)
         self.validation = validator.validate()
 
-        # Remove constant and low-variance columns (but keep target)
+        # Remove constant and low-variance columns
         const_cols = self.validation[self.validation["is_constant"] == True].index.tolist()
-        # ✅ Don't remove target even if constant
         const_cols = [c for c in const_cols if c != target_col]
         if const_cols:
             print(f"🗑 Removing constant columns: {const_cols}")
             self.features = self.features.drop(columns=const_cols)
 
         low_var_cols = self.validation[self.validation.get("low_variance") == True].index.tolist()
-        # ✅ Don't remove target even if low variance
         low_var_cols = [c for c in low_var_cols if c != target_col]
         if low_var_cols:
             print(f"⚠️ Removing low variance columns: {low_var_cols}")
@@ -73,14 +70,14 @@ class DataProcessingAgent:
             errors="ignore"
         )
 
-        # Encode categorical features (exclude target)
+        # Encode categorical features
         categorical_cols = self.features.select_dtypes(include=["object", "category"]).columns
         categorical_cols = [c for c in categorical_cols if c != target_col]
         if len(categorical_cols) > 0:
             print(f"🔤 Encoding categorical columns: {list(categorical_cols)}")
             self.features = pd.get_dummies(self.features, columns=categorical_cols, drop_first=True)
 
-        # Detect and drop high-cardinality dummy features (exclude target column)
+        # Detect and drop high-cardinality dummy features
         high_card_cols = [
             col for col in self.features.columns
             if col != target_col and self.features[col].nunique() > 50

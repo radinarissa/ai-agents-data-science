@@ -14,21 +14,12 @@ from sklearn.preprocessing import StandardScaler
 
 
 def run_experiments_with_orchestrator():
-    """
-    Експерименти 4-6 координирани от Orchestrator
-    ✅ OPTIMIZED VERSION - Faster Grid Search
-    """
 
-    # Създаваме Orchestrator
     orchestrator = OrchestratorAgent()
 
     orchestrator.log("=" * 60)
     orchestrator.log("ADVANCED EXPERIMENTS - Model Selection, Tuning, Analysis")
     orchestrator.log("=" * 60)
-
-    # -------------------------------
-    # Стъпка 1: Зареждане на обработени данни
-    # -------------------------------
 
     orchestrator.log("Loading processed dataset...")
     df = pd.read_csv("data/processed/processed_dataset.csv")
@@ -41,15 +32,10 @@ def run_experiments_with_orchestrator():
 
     orchestrator.log(f"Dataset loaded: {X.shape[0]} samples, {X.shape[1]} features")
 
-    # -------------------------------
-    # Стъпка 2: Train/test split
-    # -------------------------------
-
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42
     )
 
-    # Scale features (needed for linear models and SVR)
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
@@ -67,7 +53,6 @@ def run_experiments_with_orchestrator():
     selector = ModelSelectionAgent(cv=5, scoring='r2')
     best_name, best_model, selection_results = selector.select_best_model(X_train_scaled, y_train)
 
-    # Логване чрез Orchestrator
     candidates = list(selection_results.keys())
     scores = {name: res['cv'] for name, res in selection_results.items() if 'cv' in res}
 
@@ -84,22 +69,17 @@ def run_experiments_with_orchestrator():
     tuner = HyperparameterTuningAgent(model=best_model, cv=5, scoring='r2')
 
     if best_name == "RandomForest":
-        # ✅ OPTIMIZED: Reduced parameter grid (9 combinations instead of 36)
         param_grid = {
-            'n_estimators': [100, 200],  # 2 values (was 3)
-            'max_depth': [10, None],  # 2 values (was 3)
-            'min_samples_split': [2],  # 1 value (was 2)
-            'min_samples_leaf': [1]  # 1 value (was 2)
+            'n_estimators': [100, 200],  
+            'max_depth': [10, None],  
+            'min_samples_split': [2], 
+            'min_samples_leaf': [1]  
         }
-        # Total: 2 * 2 * 1 * 1 = 4 combinations (was 36)
-        # With CV=5: 4 * 5 = 20 fits (was 180)
-        # Time: ~2-3 minutes (was 20-25 minutes)
 
         orchestrator.log(
             f"⚡ Using OPTIMIZED Grid Search: {len(param_grid['n_estimators']) * len(param_grid['max_depth'])} combinations")
         tuned_model, tuning_metrics = tuner.grid_search(X_train, y_train, param_grid)
 
-        # Логване чрез Orchestrator
         orchestrator.log_hyperparameter_tuning(
             model_name=best_name,
             best_params=tuning_metrics['Best Params'],
@@ -109,13 +89,11 @@ def run_experiments_with_orchestrator():
         )
 
     elif best_name == "SVR":
-        # ✅ OPTIMIZED: Reduced parameter grid
         param_grid = {
-            'C': [1.0, 10.0],  # 2 values (was 3)
-            'kernel': ['rbf'],  # 1 value (was 2)
-            'gamma': ['scale']  # 1 value (was 2)
+            'C': [1.0, 10.0],
+            'kernel': ['rbf'], 
+            'gamma': ['scale'] 
         }
-        # Total: 2 * 1 * 1 = 2 combinations (was 12)
 
         tuned_model, tuning_metrics = tuner.grid_search(X_train_scaled, y_train, param_grid)
 
@@ -162,7 +140,7 @@ def run_experiments_with_orchestrator():
         orchestrator.log("   Run: python check_data_leakage.py")
 
     # -------------------------------
-    # Визуализации
+    # Visualization
     # -------------------------------
 
     orchestrator.log("\nGenerating visualizations...")
@@ -211,7 +189,7 @@ def run_experiments_with_orchestrator():
     orchestrator.log("   4. experiment6_actual_vs_predicted.png")
 
     # -------------------------------
-    # Запазване на резултати
+    # Results
     # -------------------------------
 
     import json
@@ -228,7 +206,7 @@ def run_experiments_with_orchestrator():
     orchestrator.log("Results saved to experiments/results/all_results_4_5_6.json")
 
     # -------------------------------
-    # Запазване на логове
+    # Logs
     # -------------------------------
 
     orchestrator.save_logs("experiments/results/experiments_log.txt")
