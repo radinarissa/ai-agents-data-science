@@ -1,7 +1,7 @@
 Data Processing Pipeline Log
 ----------------------------------
 Outlier contamination: 0.05
-Imputation strategy: mean
+Imputation strategy: median
 Feature depth: 1
 
 Removed constant columns:

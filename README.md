@@ -1,78 +1,32 @@
 # AI Agents for Data Science Automation
 
-Multi-agent система с три специализирани модула за автоматизация на data science процеси.
+Multi-agent система за автоматизация на ML pipeline - от обработка на данни до обучение и оценка на модели.
 
-##  Modules
+## 🎯 Какво прави?
 
-###  Data Processing Agent
-**Отговорности:**
-- Data cleaning (missing values, outliers)
-- Feature engineering
-- Data validation
+Три специализирани агента работят заедно за автоматизиране на data science процеси: 
 
-**Използване:**
-```python
-from agents import DataProcessingAgent
+ **Data Processing Agent**: Cleaning, feature engineering, validation (Experiments 7–9) 
 
-processor = DataProcessingAgent()
-cleaned_data = processor.process(raw_data)
-```
+ **Model Training Agent**: Model selection, hyperparameter tuning, evaluation (Experiments 4–6)
 
-**Dependencies:**
-```
-pandas>=2.0.0
-numpy>=1.24.0
-scikit-learn>=1.3.0
-```
+ **Orchestrator Agent**: Координация, визуализации, отчети (Experiments 1–3) 
+ 
+Допълнително: 
 
----
+**Experiment 10**: Визуализация на обработените данни (диаграми, корелации, статистики) 
+ 
+ ## 🧪 Experiments Overview 
+| Experiment | Agent          | Purpose                                   | Output Files |
+|------------|----------------|-------------------------------------------|--------------|
+| 1–3        | Orchestrator   | Initialize pipeline, logging, reporting    | `results/report.html`, `results/pipeline_logs.txt` |
+| 7–9        | Data Processing| Cleaning, feature engineering, validation | `data/processed/processed_dataset.csv`, `experiments/validation_report.csv` |
+| 4–6        | Model Training | Model selection, hyperparameter tuning, residual analysis | `experiments/results/all_results_4_5_6.json`, residual plots |
+| 10         | Visualization  | Histograms, correlation matrix, descriptive stats | `experiments/results/histograms.png`, `correlation_matrix.png`, `descriptive_statistics.csv` |
 
-### Model Training Agent
-**Отговорности:**
-- Automated model selection
-- Hyperparameter tuning
-- Model evaluation
+## 🚀 Quick Start
 
-**Използване:**
-```python
-from agents import ModelTrainingAgent
-
-trainer = ModelTrainingAgent()
-results = trainer.train(processed_data)
-```
-
-**Dependencies:**
-```
-scikit-learn>=1.3.0
-optuna>=3.5.0
-xgboost>=2.0.0
-```
-
----
-
-### Orchestrator Agent
-**Отговорности:**
-- Pipeline coordination
-- Agent integration
-- Visualization & reporting
-
-**Използване:**
-```python
-from agents import OrchestratorAgent
-
-orchestrator = OrchestratorAgent()
-orchestrator.integrate_agents(data_processor, model_trainer)
-results = orchestrator.run_pipeline("data/raw/dataset.csv")
-```
-
-**Dependencies:**
-```
-matplotlib>=3.7.0
-seaborn>=0.12.0
-langchain>=0.1.0
-```
-
-## Setup
+### 1. Setup
 
 ```bash
 git clone https://github.com/radinarissa/ai-agents-data-science.git
@@ -80,99 +34,134 @@ cd ai-agents-data-science
 pip install -r requirements.txt
 ```
 
-**All Dependencies:**
-```
-# Data Processing
-pandas>=2.0.0
-numpy>=1.24.0
-scikit-learn>=1.3.0
+### 2. Dataset
 
-# Model Training
-optuna>=3.5.0
-xgboost>=2.0.0
+Downloaed from [Kaggle](https://www.kaggle.com/datasets/bismasajjad/agentic-ai-performance-and-capabilities-dataset)  
+→ `agentic_ai_performance_dataset_20250622.csv` в `data/raw/`
 
-# Orchestration & Visualization
-matplotlib>=3.7.0
-seaborn>=0.12.0
-langchain>=0.1.0
+### 3. Run Pipeline
 
-# Utilities
-jupyter>=1.0.0
+```bash
+# Full pipeline (data processing + model training)
+python main.py
+
+# Advanced experiments (model selection, tuning, residual analysis)
+python run_experiments.py
+
+# Interactive EDA (Jupyter Notebook)
+jupyter notebook notebooks/data_analysis.ipynb
 ```
 
-##  Usage
+## 📁 Project Structure
 
-**Quick Start:**
+```
+├── main.py                          # Full pipeline execution
+├── run_experiments.py               # Experiments 4-6
+├── agents/
+│   ├── data_processing/             # Data cleaning & feature engineering
+│   ├── model_training/              # Model selection, tuning, evaluation
+│   └── orchestration/               # Agent coordination & logging
+├── data/
+│   ├── raw/                         # Original dataset (put here)
+│   └── processed/                   # Auto-generated processed data
+├── notebooks/
+│   ├── data_analysis.ipynb          # Interactive EDA
+│   └── results/                     # Notebook outputs (charts, HTML)
+├── experiments/results/             # Experiment outputs
+│   ├── all_results_4_5_6.json
+│   └── experiment6_*.png (4 plots)
+└── results/
+    ├── report.html                  # Main pipeline report
+    └── pipeline_logs.txt
+```
+
+## 🧪 Testing
+
+### Test 1: Basic Pipeline
 ```bash
 python main.py
 ```
+**Очаквано:**
+- Time: ~30 seconds
+- Output: `results/report.html`
+- Metrics: R² ≈ 0.91, RMSE ≈ 0.044
 
-**Run Experiments:**
+### Test 2: Advanced Experiments
 ```bash
 python run_experiments.py
 ```
+**Очаквано:**
+- Experiment 4: Model Selection (~17 sec)
+- Experiment 5: Hyperparameter Tuning (~62 sec, OPTIMIZED)
+- Experiment 6: Residual Analysis (~3 sec, 4 plots)
+- Output: `experiments/results/all_results_4_5_6.json`
 
-**Full Pipeline:**
+### Test 3: Interactive Analysis
+```bash
+jupyter notebook notebooks/data_analysis.ipynb
+```
+**Съдържа:** EDA, correlation analysis, visualizations  
+**Output:** `notebooks/results/` (charts + HTML report)
+
+## 📊 Expected Results
+
+- **R² Score**: 0.9062 (90.62% variance explained)
+- **RMSE**: 0.0442
+- **MAE**: 0.0321
+- **Dataset**: 5000 rows, 44 features (after processing)
+- **Outliers**: 250 detected, imputed (not removed)
+
+## ⚙️ Configuration
+
+Edit в `main.py`:
 ```python
-from agents import OrchestratorAgent, DataProcessingAgent, ModelTrainingAgent
-
-# Initialize agents
-processor = DataProcessingAgent()
-trainer = ModelTrainingAgent()
-orchestrator = OrchestratorAgent()
-
-# Integrate and run
-orchestrator.integrate_agents(processor, trainer)
-results = orchestrator.run_pipeline("data.csv")
+contamination=0.05      # Outlier detection threshold
+impute_strategy="median"
+feature_depth=1         # DFS depth
 ```
 
-## Структура на проекта
-
-```
-ai-agents-data-science/
-│
-├── agents/
-│   ├── __init__.py
-│   ├── orchestrator.py          # Orchestrator Agent
-│   ├── visualizer.py            # Visualization Agent
-│   └── report_generator.py      # Report Generator Agent
-│
-├── data/
-│   ├── raw/
-│   │   └── agentic_ai_performance_dataset_20250622.csv
-│   └── processed/               # Temporary processed data
-│
-├── results/
-│   ├── figures/                 # Generated charts
-│   ├── experiments/             # Experiment results
-│   ├── report.html             # HTML report
-│   └── pipeline_logs.txt       # Execution logs
-│
-├── main.py                      # Main entry point
-├── run_experiments.py           # Experiment runner
-├── data_analysis.ipynb          # Jupyter notebook analysis
-├── requirements.txt             # Python dependencies
-├── .gitignore
-└── README.md
+Edit в `run_experiments.py` (OPTIMIZED Grid):
+```python
+param_grid = {
+    'n_estimators': [100, 200],    # 4 combinations total
+    'max_depth': [10, None],       # (was 36, ~20 min)
+    'min_samples_split': [2],      # now 4, ~1 min
+    'min_samples_leaf': [1]
+}
 ```
 
-## Dataset
+## 🔧 Troubleshooting
 
-**Source:** [Kaggle - Agentic AI Performance Dataset](https://www.kaggle.com/datasets/bismasajjad/agentic-ai-performance-and-capabilities-dataset)
+| Problem | Fix |
+|---------|-----|
+| `ModuleNotFoundError: featuretools` | `pip install featuretools` |
+| `ModuleNotFoundError: notebook` | `pip install jupyter notebook` |
+| Missing dataset | Download from Kaggle → `data/raw/` |
+| Grid Search slow | Already optimized (4 combos, ~1 min) |
 
-- 5000 records, 26 features
-- AI agents performance metrics
+## 📈 Key Features
 
-**Key Features:**
-- `success_rate`, `accuracy_score`, `efficiency_score`
-- `memory_usage_mb`, `cpu_usage_percent`
-- `autonomy_level`, `task_complexity`
+✅ Data Leakage Prevention (target separation)  
+✅ Optimized Grid Search (4 combos, 8.7x faster)  
+✅ Automated Feature Engineering (DFS)  
+✅ Model Comparison (4 models)  
+✅ Residual Analysis (Shapiro-Wilk, Q-Q plots)  
+✅ Interactive EDA (Jupyter notebook)  
+✅ HTML Reports (auto-generated)  
 
-## Experiments
+## 📝 Notes
 
-**Benchmarks:**
-- Baseline pipeline
-- Performance iterations (3-5 runs)
-- Data size scaling (100-5000 records)
+- **Outliers**: Imputed, not removed (5000 → 5000 rows)
+- **Features**: 26 → 44 (27 generated, cleanup applied)
+- **Tuning**: OPTIMIZED Grid (4 combos, not 36)
+- **Notebook**: Separate EDA workspace with visualizations
 
-**Results:** `results/experiments/experiment_results.json`
+## 🎓 Project Info
+
+**Course**: Приложен изкуствен интелект  
+**Dataset**: [Agentic AI Performance (Kaggle)](https://www.kaggle.com/datasets/bismasajjad/agentic-ai-performance-and-capabilities-dataset)  
+**Tech Stack**: Python, scikit-learn, featuretools, pandas, matplotlib, Jupyter
+
+---
+
+**Quick Test**: `python main.py` → ~30s → R² ≈ 0.91 ✅

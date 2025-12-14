@@ -15,14 +15,12 @@ class ModelEvaluationAgent:
         """Evaluate a single regression model and print key metrics + residual analysis."""
         y_pred = model.predict(X_test)
 
-        # Основни метрики
         metrics = {
             "R2 Score": r2_score(y_test, y_pred),
             "MAE": mean_absolute_error(y_test, y_pred),
             "RMSE": mean_squared_error(y_test, y_pred) ** 0.5
         }
 
-        # Остатъци
         residuals = y_test - y_pred
         residual_stats = {
             "Mean Residual": np.mean(residuals),
@@ -32,23 +30,21 @@ class ModelEvaluationAgent:
         }
         metrics.update(residual_stats)
 
-        # Shapiro-Wilk тест
         stat, p_value = shapiro(residuals)
         metrics["Shapiro-Wilk Statistic"] = stat
         metrics["Shapiro-Wilk p-value"] = p_value
 
-        # Печат
         print("\n📊 Model Evaluation Results:")
         for k, v in metrics.items():
             print(f"   {k}: {v:.4f}")
 
-        # Визуализации
         plt.figure(figsize=(6, 4))
         sns.histplot(residuals, kde=True, bins=30, color='purple')
         plt.title("Residual Distribution")
         plt.xlabel("Residuals")
         plt.ylabel("Frequency")
-        plt.show()
+        plt.savefig("results/residual_distribution.png", dpi=100, bbox_inches='tight')
+        plt.close()
 
         plt.figure(figsize=(6, 4))
         sns.scatterplot(x=y_test, y=y_pred, color='blue', alpha=0.6)
@@ -56,7 +52,8 @@ class ModelEvaluationAgent:
         plt.title("Actual vs Predicted")
         plt.xlabel("Actual")
         plt.ylabel("Predicted")
-        plt.show()
+        plt.savefig("results/actual_vs_predicted.png", dpi=100, bbox_inches='tight')
+        plt.close()
 
         return metrics
 
@@ -74,10 +71,10 @@ class ModelEvaluationAgent:
         df = pd.DataFrame(results).sort_values(by="R2 Score", ascending=False)
         print(df.to_string(index=False))
 
-        # Визуализация
         plt.figure(figsize=(6, 4))
         sns.barplot(data=df, x="Model", y="R2 Score", palette="viridis")
         plt.title("Model Comparison (R2 Score)")
-        plt.show()
+        plt.savefig("results/model_comparison.png", dpi=100, bbox_inches='tight')
+        plt.close()
 
         return df

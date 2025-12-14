@@ -1,96 +1,154 @@
 import pandas as pd
-import sys, os, json
 import matplotlib.pyplot as plt
 import seaborn as sns
 import statsmodels.api as sm
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import os
 
+from agents.orchestration.orchestrator import OrchestratorAgent
+from agents.data_processing.data_processing_agent import DataProcessingAgent
 from agents.model_training.agent_model_selection import ModelSelectionAgent
 from agents.model_training.agent_hyperparameter_tuning import HyperparameterTuningAgent
 from agents.model_training.model_evaluation import ModelEvaluationAgent
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-def run_experiments():
-    print("⚗️ RUNNING EXPERIMENTS – Model Selection, Tuning, Residual Analysis")
 
-    # Step 1: Load processed dataset
+def run_experiments_with_orchestrator():
+
+    orchestrator = OrchestratorAgent()
+
+    orchestrator.log("=" * 60)
+    orchestrator.log("ADVANCED EXPERIMENTS - Model Selection, Tuning, Analysis")
+    orchestrator.log("=" * 60)
+
+    orchestrator.log("Loading processed dataset...")
     df = pd.read_csv("data/processed/processed_dataset.csv")
 
-    # ✅ Guard check for target column
     if "success_rate" not in df.columns:
         raise ValueError("Target column 'success_rate' missing in processed dataset")
-    
+
     X = df.drop(columns=["success_rate"])
     y = df["success_rate"]
 
-    # Step 2: Train/test split
+    orchestrator.log(f"Dataset loaded: {X.shape[0]} samples, {X.shape[1]} features")
+
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42
     )
 
-    # Scale features (needed for linear models and SVR)
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
 
+    orchestrator.log(f"Data split: {X_train.shape[0]} train, {X_test.shape[0]} test")
+
     # -------------------------------
-    # Experiment 4: Model Selection
+    # EXPERIMENT 4: Model Selection
     # -------------------------------
 
-    print("\n=== Експеримент 4: Model Selection – Сравнителен анализ ===")
+    orchestrator.log("\n" + "=" * 60)
+    orchestrator.log("EXPERIMENT 4: Model Selection")
+    orchestrator.log("=" * 60)
+
     selector = ModelSelectionAgent(cv=5, scoring='r2')
-    best_name, best_model, results = selector.select_best_model(X_train_scaled, y_train)
+    best_name, best_model, selection_results = selector.select_best_model(X_train_scaled, y_train)
+
+    candidates = list(selection_results.keys())
+    scores = {name: res['cv'] for name, res in selection_results.items() if 'cv' in res}
+
+    orchestrator.log_model_selection(best_name, candidates, scores)
 
     # -------------------------------
-    # Experiment 5: Hyperparameter Tuning
+    # EXPERIMENT 5: Hyperparameter Tuning (OPTIMIZED)
     # -------------------------------
 
-    print("\n=== Експеримент 5: Hyperparameter Tuning – A/B Тестове ===")
+    orchestrator.log("\n" + "=" * 60)
+    orchestrator.log("EXPERIMENT 5: Hyperparameter Tuning (OPTIMIZED)")
+    orchestrator.log("=" * 60)
+
     tuner = HyperparameterTuningAgent(model=best_model, cv=5, scoring='r2')
 
     if best_name == "RandomForest":
         param_grid = {
-            'n_estimators': [50, 100, 200],
-            'max_depth': [5, 10, None],
-            'min_samples_split': [2, 5],
-            'min_samples_leaf': [1, 2]
+            'n_estimators': [100, 200],  
+            'max_depth': [10, None],  
+            'min_samples_split': [2], 
+            'min_samples_leaf': [1]  
         }
-        # RandomForest doesn’t need scaled input
+
+        orchestrator.log(
+            f"⚡ Using OPTIMIZED Grid Search: {len(param_grid['n_estimators']) * len(param_grid['max_depth'])} combinations")
         tuned_model, tuning_metrics = tuner.grid_search(X_train, y_train, param_grid)
+
+        orchestrator.log_hyperparameter_tuning(
+            model_name=best_name,
+            best_params=tuning_metrics['Best Params'],
+            tuning_method='Grid Search (Optimized)',
+            iterations=len(param_grid['n_estimators']) * len(param_grid['max_depth']) *
+                       len(param_grid['min_samples_split']) * len(param_grid['min_samples_leaf'])
+        )
+
     elif best_name == "SVR":
         param_grid = {
-            'C': [0.1, 1.0, 10.0],
-            'kernel': ['linear', 'rbf'],
-            'gamma': ['scale', 'auto']
+            'C': [1.0, 10.0],
+            'kernel': ['rbf'], 
+            'gamma': ['scale'] 
         }
+
         tuned_model, tuning_metrics = tuner.grid_search(X_train_scaled, y_train, param_grid)
+
+        orchestrator.log_hyperparameter_tuning(
+            model_name=best_name,
+            best_params=tuning_metrics['Best Params'],
+            tuning_method='Grid Search (Optimized)',
+            iterations=len(param_grid['C']) * len(param_grid['kernel']) * len(param_grid['gamma'])
+        )
     else:
         param_grid = {}
         tuned_model = best_model
         tuning_metrics = {"note": "No tuning performed"}
-
-    if param_grid:
-        print(f"Tuning metrics: {tuning_metrics}")
+        orchestrator.log("No hyperparameter tuning for this model")
 
     # -------------------------------
-    # Experiment 6: Residual Analysis
+    # EXPERIMENT 6: Residual Analysis
     # -------------------------------
 
-    print("\n=== Експеримент 6: Residual Analysis – Качество на предсказанията ===")
+    orchestrator.log("\n" + "=" * 60)
+    orchestrator.log("EXPERIMENT 6: Residual Analysis")
+    orchestrator.log("=" * 60)
+
     evaluator = ModelEvaluationAgent()
 
     # Use scaled input for models that need it
     if best_name == "RandomForest":
         final_metrics = evaluator.evaluate_model(tuned_model, X_test, y_test)
+        predictions = tuned_model.predict(X_test)
     else:
         final_metrics = evaluator.evaluate_model(tuned_model, X_test_scaled, y_test)
+        predictions = tuned_model.predict(X_test_scaled)
 
-    residuals = y_test - tuned_model.predict(X_test if best_name=="RandomForest" else X_test_scaled)
-    predicted = tuned_model.predict(X_test if best_name=="RandomForest" else X_test_scaled)
+    residuals = y_test - predictions
+
+    orchestrator.log(f"R² Score: {final_metrics['R2 Score']:.4f}")
+    orchestrator.log(f"RMSE: {final_metrics['RMSE']:.4f}")
+    orchestrator.log(f"MAE: {final_metrics['MAE']:.4f}")
+
+    # Check for data leakage
+    if final_metrics['R2 Score'] > 0.95:
+        orchestrator.log("⚠️  WARNING: Suspiciously high R² score!")
+        orchestrator.log("   This might indicate data leakage.")
+        orchestrator.log("   Run: python check_data_leakage.py")
+
+    # -------------------------------
+    # Visualization
+    # -------------------------------
+
+    orchestrator.log("\nGenerating visualizations...")
+
+    os.makedirs("experiments/results", exist_ok=True)
 
     # Residual Distribution
-    plt.figure(figsize=(8,6))
+    plt.figure(figsize=(6, 4))
     sns.histplot(residuals, kde=True, color="purple", edgecolor="black")
     plt.title("Residual Distribution")
     plt.xlabel("Residuals")
@@ -99,14 +157,14 @@ def run_experiments():
     plt.close()
 
     # Q-Q Plot
-    sm.qqplot(residuals, line='45', fit=True)
+    fig = sm.qqplot(residuals, line='45', fit=True)
     plt.title("Q-Q Plot of Residuals")
     plt.savefig("experiments/results/experiment6_qqplot.png", dpi=300)
     plt.close()
 
     # Residuals vs Predicted
-    plt.figure(figsize=(8,6))
-    sns.scatterplot(x=predicted, y=residuals, color="purple", edgecolor="black", alpha=0.7)
+    plt.figure(figsize=(6, 4))
+    sns.scatterplot(x=predictions, y=residuals, color="purple", edgecolor="black", alpha=0.7)
     plt.axhline(0, color="red", linestyle="--")
     plt.title("Residuals vs Predicted Values")
     plt.xlabel("Predicted Values")
@@ -115,8 +173,8 @@ def run_experiments():
     plt.close()
 
     # Actual vs Predicted
-    plt.figure(figsize=(8,6))
-    sns.scatterplot(x=y_test, y=predicted, color="blue", edgecolor="black", alpha=0.7)
+    plt.figure(figsize=(6, 4))
+    sns.scatterplot(x=y_test, y=predictions, color="blue", edgecolor="black", alpha=0.7)
     plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--')
     plt.title("Actual vs Predicted")
     plt.xlabel("Actual Values")
@@ -124,19 +182,48 @@ def run_experiments():
     plt.savefig("experiments/results/experiment6_actual_vs_predicted.png", dpi=300)
     plt.close()
 
-    print("\n✅ Experiments complete. Results saved in experiments/results/")
+    orchestrator.log("✅ All 4 visualizations saved to experiments/results/")
+    orchestrator.log("   1. experiment6_residual_distribution.png")
+    orchestrator.log("   2. experiment6_qqplot.png")
+    orchestrator.log("   3. experiment6_residuals_vs_predicted.png")
+    orchestrator.log("   4. experiment6_actual_vs_predicted.png")
 
-    # ✅ Save all results for 4-6
-    os.makedirs("experiments/results", exist_ok=True)
+    # -------------------------------
+    # Results
+    # -------------------------------
+
+    import json
+
+    all_results = {
+        "experiment_4_selection": selection_results,
+        "experiment_5_tuning": tuning_metrics,
+        "experiment_6_evaluation": final_metrics
+    }
+
     with open("experiments/results/all_results_4_5_6.json", "w") as f:
-        json.dump({
-            "selection_results": results,
-            "tuning_metrics": tuning_metrics,
-            "final_metrics": final_metrics
-        }, f, indent=2)
+        json.dump(all_results, f, indent=2, default=str)
 
-   
-    print("✅ Visualization complete. Figures saved in experiments/results/")
+    orchestrator.log("Results saved to experiments/results/all_results_4_5_6.json")
+
+    # -------------------------------
+    # Logs
+    # -------------------------------
+
+    orchestrator.save_logs("experiments/results/experiments_log.txt")
+
+    orchestrator.log("\n" + "=" * 60)
+    orchestrator.log("EXPERIMENTS COMPLETED SUCCESSFULLY")
+    orchestrator.log("=" * 60)
+
+    return {
+        'selection_results': selection_results,
+        'tuning_metrics': tuning_metrics,
+        'final_metrics': final_metrics,
+        'best_model': tuned_model,
+        'best_model_name': best_name
+    }
+
 
 if __name__ == "__main__":
-    run_experiments()
+    results = run_experiments_with_orchestrator()
+    print("\n✅ All experiments completed! Check experiments/results/ for outputs.")

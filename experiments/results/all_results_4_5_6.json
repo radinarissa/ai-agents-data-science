@@ -1,43 +1,43 @@
 {
-  "selection_results": {
+  "experiment_4_selection": {
     "LinearRegression": {
-      "train": 0.8852295061629969,
-      "cv": 0.8817119552992077
+      "train": 0.8793898944806142,
+      "cv": 0.8757337297802815
     },
     "Ridge": {
-      "train": 0.8852293206812963,
-      "cv": 0.8817138397697128
+      "train": 0.8793897043525382,
+      "cv": 0.8757356219643804
     },
     "RandomForest": {
-      "train": 0.9865761344794929,
-      "cv": 0.9043937873255651
+      "train": 0.9864772083987952,
+      "cv": 0.903817374886444
     },
     "SVR": {
-      "train": 0.8327352334190073,
-      "cv": 0.7958394804208029
+      "train": 0.8315618997100881,
+      "cv": 0.7940922139896924
     }
   },
-  "tuning_metrics": {
+  "experiment_5_tuning": {
     "Best Params": {
-      "max_depth": 5,
-      "min_samples_leaf": 2,
-      "min_samples_split": 5,
-      "n_estimators": 100
+      "max_depth": 10,
+      "min_samples_leaf": 1,
+      "min_samples_split": 2,
+      "n_estimators": 200
     },
-    "R2 Score": 0.9173340110637923,
-    "RMSE": 0.04079405273262551,
-    "MAE": 0.02966983690336114,
-    "Time (s)": 254.06751918792725
+    "R2 Score": 0.9456667617203649,
+    "RMSE": 0.03307787202246199,
+    "MAE": 0.02405752928905083,
+    "Time (s)": 79.51922988891602
   },
-  "final_metrics": {
-    "R2 Score": 0.908702182396489,
-    "MAE": 0.03182154615639503,
-    "RMSE": 0.04361955838926519,
-    "Mean Residual": 0.0024257998642195347,
-    "Std Residual": 0.04355205355770572,
-    "Skewness": 0.22333851051353318,
-    "Kurtosis": 0.6288944131318805,
-    "Shapiro-Wilk Statistic": 0.9818318262814294,
-    "Shapiro-Wilk p-value": 7.738488368560836e-10
+  "experiment_6_evaluation": {
+    "R2 Score": 0.9057118903298539,
+    "MAE": 0.03225174542049227,
+    "RMSE": 0.044359227685704994,
+    "Mean Residual": 0.002960337169354456,
+    "Std Residual": 0.04426033760282398,
+    "Skewness": 0.2664230460619515,
+    "Kurtosis": 0.6414844245645948,
+    "Shapiro-Wilk Statistic": 0.979656459054346,
+    "Shapiro-Wilk p-value": 1.3130873727421112e-10
   }
 }
