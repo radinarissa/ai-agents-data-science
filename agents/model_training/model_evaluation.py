@@ -53,7 +53,7 @@ class ModelEvaluationAgent:
         plt.xlabel("Actual")
         plt.ylabel("Predicted")
         plt.savefig("results/actual_vs_predicted.png", dpi=100, bbox_inches='tight')
-        plt.close()  # Close instead of show
+        plt.close()
 
         return metrics
 

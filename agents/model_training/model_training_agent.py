@@ -95,7 +95,7 @@ class ModelTrainingAgent:
         return self._get_fallback_params(dataset_info)
 
     def _get_fallback_params(self, dataset_info):
-        """Връща стандартни хиперпараметри, ако LLM не може да генерира валидни."""
+        """Return fallback hyperparameter suggestions, if LLM fails."""
         return {
             "search_space": {
                 "n_estimators": [100, 200],
