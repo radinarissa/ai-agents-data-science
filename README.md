@@ -4,10 +4,25 @@ Multi-agent система за автоматизация на ML pipeline - о
 
 ## 🎯 Какво прави?
 
-Три специализирани агента работят заедно за автоматизиране на data science процеси:
-- **Data Processing Agent**: Cleaning, feature engineering, validation
-- **Model Training Agent**: Model selection, hyperparameter tuning, evaluation  
-- **Orchestrator Agent**: Координация, визуализации, отчети
+Три специализирани агента работят заедно за автоматизиране на data science процеси: 
+
+ **Data Processing Agent**: Cleaning, feature engineering, validation (Experiments 7–9) 
+
+ **Model Training Agent**: Model selection, hyperparameter tuning, evaluation (Experiments 4–6)
+
+ **Orchestrator Agent**: Координация, визуализации, отчети (Experiments 1–3) 
+ 
+Допълнително: 
+
+**Experiment 10**: Визуализация на обработените данни (диаграми, корелации, статистики) 
+ 
+ ## 🧪 Experiments Overview 
+| Experiment | Agent          | Purpose                                   | Output Files |
+|------------|----------------|-------------------------------------------|--------------|
+| 1–3        | Orchestrator   | Initialize pipeline, logging, reporting    | `results/report.html`, `results/pipeline_logs.txt` |
+| 7–9        | Data Processing| Cleaning, feature engineering, validation | `data/processed/processed_dataset.csv`, `experiments/validation_report.csv` |
+| 4–6        | Model Training | Model selection, hyperparameter tuning, residual analysis | `experiments/results/all_results_4_5_6.json`, residual plots |
+| 10         | Visualization  | Histograms, correlation matrix, descriptive stats | `experiments/results/histograms.png`, `correlation_matrix.png`, `descriptive_statistics.csv` |
 
 ## 🚀 Quick Start
 
